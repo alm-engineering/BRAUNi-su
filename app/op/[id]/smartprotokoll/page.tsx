@@ -226,53 +226,108 @@ export default function SmartProtokollPage() {
   return (
     <div className="px-6 py-8">
       <div className="bg-white border border-stone-200 rounded-xl p-6">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="text-xs uppercase tracking-wide text-stone-400">
-              <th className="w-20 pb-4 text-left font-medium"></th>
-              <th className="pb-4 text-center font-medium w-[35%]">CHIRURG</th>
-              <th className="pb-4 text-center font-medium w-[35%]">ANÄSTHESIST</th>
-              <th className="pb-4 text-center font-medium">EVENTS</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className="relative">
+          <div className="absolute left-10 top-0 bottom-0 w-px bg-stone-200" />
+
+          <div className="flex items-center gap-4 mb-6 pl-24">
+            <span className="text-xs uppercase tracking-wide text-stone-400 font-medium w-[35%]">Chirurg</span>
+            <span className="text-xs uppercase tracking-wide text-stone-400 font-medium w-[35%]">Anästhesist</span>
+            <span className="text-xs uppercase tracking-wide text-stone-400 font-medium flex-1">Events</span>
+          </div>
+
+          <div className="flex flex-col">
             {protocolData.map((row, index) => (
-              <tr
+              <div
                 key={index}
                 onClick={() => handleRowClick(row)}
-                className="border-b border-stone-100 transition-colors duration-150 hover:bg-stone-50 cursor-pointer group"
+                className="relative flex items-start gap-4 py-3 pl-24 pr-2 hover:bg-stone-50 cursor-pointer transition-colors group rounded-lg"
               >
-                <td className="py-3 pr-4 font-mono text-sm text-stone-500 group-hover:text-stone-900 transition-colors">
-                  {row.time}
-                </td>
+                <div className="absolute left-0 flex items-center gap-2">
+                  <span className="font-mono text-sm text-stone-400 group-hover:text-stone-900 transition-colors w-16 text-right">
+                    {row.time}
+                  </span>
+                  <div className="w-3 h-3 rounded-full bg-white border-2 border-stone-300 group-hover:border-stone-500 group-hover:bg-stone-500 transition-colors z-10" />
+                </div>
 
-                <td className="px-2 py-2">
-                  {row.chirurg ? (
-                    <ActionTag type={row.chirurg.type} label={row.chirurg.label} importance={row.chirurg.importance} />
-                  ) : (
-                    <EmptyCell />
-                  )}
-                </td>
+                <div className="flex items-start gap-4 flex-1 min-h-[44px]">
+                  <div className="w-[35%]">
+                    {row.chirurg ? (
+                      <div className="flex items-center gap-2 rounded-md bg-white border border-stone-200 px-3 py-2 group-hover:border-stone-300 transition-colors">
+                        <div
+                          className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                            row.chirurg.importance === "high"
+                              ? "bg-red-500"
+                              : row.chirurg.importance === "medium"
+                                ? "bg-amber-500"
+                                : "bg-emerald-500"
+                          }`}
+                        />
+                        <span className="text-stone-400">
+                          {row.chirurg.type === "spuelung" && <Droplets className="h-4 w-4" />}
+                          {row.chirurg.type === "schnitt" && <Scissors className="h-4 w-4" />}
+                          {row.chirurg.type === "insufflation" && <Activity className="h-4 w-4" />}
+                          {row.chirurg.type === "other" && <Activity className="h-4 w-4" />}
+                        </span>
+                        <span className="text-sm font-medium text-stone-700 truncate">{row.chirurg.label}</span>
+                      </div>
+                    ) : (
+                      <div className="h-10 w-full rounded-md bg-stone-50 border border-stone-100" />
+                    )}
+                  </div>
 
-                <td className="px-2 py-2">
-                  {row.anesist ? (
-                    <ActionTag type={row.anesist.type} label={row.anesist.label} importance={row.anesist.importance} />
-                  ) : (
-                    <EmptyCell />
-                  )}
-                </td>
+                  <div className="w-[35%]">
+                    {row.anesist ? (
+                      <div className="flex items-center gap-2 rounded-md bg-white border border-stone-200 px-3 py-2 group-hover:border-stone-300 transition-colors">
+                        <div
+                          className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                            row.anesist.importance === "high"
+                              ? "bg-red-500"
+                              : row.anesist.importance === "medium"
+                                ? "bg-amber-500"
+                                : "bg-emerald-500"
+                          }`}
+                        />
+                        <span className="text-stone-400">
+                          {row.anesist.type === "propofol" && <Pill className="h-4 w-4" />}
+                          {row.anesist.type === "fentanyl" && <Syringe className="h-4 w-4" />}
+                          {row.anesist.type === "adrenalin" && <Syringe className="h-4 w-4" />}
+                          {row.anesist.type === "other" && <Pill className="h-4 w-4" />}
+                        </span>
+                        <span className="text-sm font-medium text-stone-700 truncate">{row.anesist.label}</span>
+                      </div>
+                    ) : (
+                      <div className="h-10 w-full rounded-md bg-stone-50 border border-stone-100" />
+                    )}
+                  </div>
 
-                <td className="px-2 py-2">
-                  {row.event ? (
-                    <ActionTag type={row.event.type} label={row.event.label} importance={row.event.importance} />
-                  ) : (
-                    <EmptyCell />
-                  )}
-                </td>
-              </tr>
+                  <div className="flex-1">
+                    {row.event ? (
+                      <div className="flex items-center gap-2 rounded-md bg-white border border-stone-200 px-3 py-2 group-hover:border-stone-300 transition-colors">
+                        <div
+                          className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                            row.event.importance === "high"
+                              ? "bg-red-500"
+                              : row.event.importance === "medium"
+                                ? "bg-amber-500"
+                                : "bg-emerald-500"
+                          }`}
+                        />
+                        <span className="text-stone-400">
+                          {row.event.type === "puls_sprung" && <TrendingUp className="h-4 w-4" />}
+                          {row.event.type === "spo2_drop" && <AlertTriangle className="h-4 w-4" />}
+                          {row.event.type === "bp_change" && <Activity className="h-4 w-4" />}
+                        </span>
+                        <span className="text-sm font-medium text-stone-700 truncate">{row.event.label}</span>
+                      </div>
+                    ) : (
+                      <div className="h-10 w-full rounded-md bg-stone-50 border border-stone-100" />
+                    )}
+                  </div>
+                </div>
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
 
       <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -430,7 +485,7 @@ export default function SmartProtokollPage() {
                           tickLine={false}
                         />
                         <YAxis
-                          domain={[0, 20]}
+                          domain={[0, 16]}
                           tick={{ fontSize: 8, fill: "#a8a29e" }}
                           axisLine={false}
                           tickLine={false}
