@@ -236,8 +236,8 @@ function VitalChart({
               </linearGradient>
             )}
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
-          <XAxis dataKey="time" tick={{ fontSize: 9, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} tickLine={false} />
+          <XAxis dataKey="time" tick={{ fontSize: 9, fill: "#a8a29e" }} axisLine={false} />
           <YAxis
             domain={domain || ["auto", "auto"]}
             tick={{ fontSize: 9, fill: "#a8a29e" }}
@@ -368,7 +368,7 @@ export default function SmartProtokollPage() {
               </div>
 
               <div className="flex-shrink-0 border border-stone-200 rounded-lg p-3 bg-white">
-                <div className="flex items-center justify-between gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-rose-500" />
                     <Heart className="w-3.5 h-3.5 text-rose-500" />
