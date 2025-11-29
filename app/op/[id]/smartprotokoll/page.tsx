@@ -326,19 +326,18 @@ export default function SmartProtokollPage() {
       </div>
 
       <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <SheetContent className="w-[520px] sm:w-[580px] px-6 py-4 flex flex-col h-full overflow-hidden">
-          <SheetHeader className="flex-shrink-0 mb-2">
-            <SheetTitle className="text-lg font-semibold text-stone-900">Zeitblock {selectedRow?.time}</SheetTitle>
-            <p className="text-xs text-stone-500">{selectedRow?.chirurg?.label}</p>
+        <SheetContent className="w-[520px] sm:w-[580px] px-6 py-3 flex flex-col h-full overflow-hidden">
+          <SheetHeader className="flex-shrink-0 mb-1">
+            <SheetTitle className="text-base font-semibold text-stone-900">{selectedRow?.chirurg?.label}</SheetTitle>
           </SheetHeader>
 
           {selectedRow && (
             <div className="flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
               <div className="flex-shrink-0">
-                <div className="relative aspect-video w-full max-h-32 rounded-lg overflow-hidden bg-stone-900 group cursor-pointer">
+                <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-stone-900 group cursor-pointer">
                   <video
                     className="w-full h-full object-cover opacity-90"
-                    poster={`/placeholder.svg?height=128&width=400&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
+                    poster={`/placeholder.svg?height=180&width=320&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
                   >
                     <source src={`/videos/op-${selectedRow.time.replace(":", "-")}.mp4`} type="video/mp4" />
                   </video>
@@ -384,9 +383,13 @@ export default function SmartProtokollPage() {
               </div>
 
               {selectedRow.reportText && (
-                <div className="flex-shrink-0 border border-stone-200 rounded-lg p-3 bg-stone-50">
-                  <h4 className="text-[10px] uppercase tracking-wide text-stone-400 font-medium mb-1">OP-Bericht</h4>
-                  <p className="text-xs text-stone-700 leading-relaxed">{selectedRow.reportText}</p>
+                <div className="flex-shrink-0">
+                  <h4 className="text-sm font-semibold text-stone-700 mb-1">OP-Bericht</h4>
+                  <div className="bg-stone-50 rounded-lg p-2 border border-stone-100">
+                    <p className="text-xs text-stone-600 leading-relaxed whitespace-pre-line">
+                      {selectedRow.reportText}
+                    </p>
+                  </div>
                 </div>
               )}
 
