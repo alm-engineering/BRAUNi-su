@@ -221,7 +221,7 @@ function VitalChart({
   domain?: [number, number]
 }) {
   return (
-    <div className="h-28 w-full">
+    <div className="h-24 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
           <defs>
@@ -236,15 +236,15 @@ function VitalChart({
               </linearGradient>
             )}
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} tickLine={false} />
-          <XAxis dataKey="time" tick={{ fontSize: 10, fill: "#a8a29e" }} axisLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
+          <XAxis dataKey="time" tick={{ fontSize: 9, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
           <YAxis
             domain={domain || ["auto", "auto"]}
-            tick={{ fontSize: 10, fill: "#a8a29e" }}
+            tick={{ fontSize: 9, fill: "#a8a29e" }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(value) => `${value}${unit}`}
-            width={40}
+            width={35}
           />
           <Area
             type="monotone"
@@ -281,133 +281,128 @@ export default function SmartProtokollPage() {
 
   return (
     <div className="px-6 py-8">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[1200px] border-collapse">
-          <thead>
-            <tr className="text-xs uppercase tracking-wide text-stone-400">
-              <th className="w-16 pb-4 text-left font-medium"></th>
-              <th className="w-48 pb-4 text-center font-medium">CHIRURG</th>
-              <th className="w-48 pb-4 text-center font-medium">ANÄSTHESIST</th>
-              <th className="w-48 pb-4 text-center font-medium">EVENTS</th>
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="text-xs uppercase tracking-wide text-stone-400">
+            <th className="w-20 pb-4 text-left font-medium"></th>
+            <th className="pb-4 text-center font-medium">CHIRURG</th>
+            <th className="pb-4 text-center font-medium">ANÄSTHESIST</th>
+            <th className="pb-4 text-center font-medium">EVENTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {protocolData.map((row, index) => (
+            <tr
+              key={index}
+              onClick={() => handleRowClick(row)}
+              className="border-b border-stone-100 transition-colors duration-150 hover:bg-stone-100 cursor-pointer group"
+            >
+              {/* Time column */}
+              <td className="py-3 pr-4 font-mono text-sm text-stone-500 group-hover:text-stone-900 transition-colors">
+                {row.time}
+              </td>
+
+              {/* CHIRURG column */}
+              <td className="px-2 py-2">
+                {row.chirurg ? (
+                  <ActionTag type={row.chirurg.type} label={row.chirurg.label} variant="surgeon" />
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+
+              {/* ANESIST column */}
+              <td className="px-2 py-2">
+                {row.anesist ? (
+                  <ActionTag type={row.anesist.type} label={row.anesist.label} variant="anesist" />
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+
+              {/* EVENTS column */}
+              <td className="px-2 py-2">
+                {row.event ? (
+                  <ActionTag type={row.event.type} label={row.event.label} variant="event" />
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {protocolData.map((row, index) => (
-              <tr
-                key={index}
-                onClick={() => handleRowClick(row)}
-                className="border-b border-stone-100 transition-colors duration-150 hover:bg-stone-100 cursor-pointer group"
-              >
-                {/* Time column */}
-                <td className="py-3 pr-4 font-mono text-sm text-stone-500 group-hover:text-stone-900 transition-colors">
-                  {row.time}
-                </td>
-
-                {/* CHIRURG column */}
-                <td className="px-2 py-2">
-                  {row.chirurg ? (
-                    <ActionTag type={row.chirurg.type} label={row.chirurg.label} variant="surgeon" />
-                  ) : (
-                    <EmptyCell />
-                  )}
-                </td>
-
-                {/* ANESIST column */}
-                <td className="px-2 py-2">
-                  {row.anesist ? (
-                    <ActionTag type={row.anesist.type} label={row.anesist.label} variant="anesist" />
-                  ) : (
-                    <EmptyCell />
-                  )}
-                </td>
-
-                {/* EVENTS column */}
-                <td className="px-2 py-2">
-                  {row.event ? (
-                    <ActionTag type={row.event.type} label={row.event.label} variant="event" />
-                  ) : (
-                    <EmptyCell />
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
 
       <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <SheetContent className="w-[600px] sm:w-[680px] px-8 py-6 overflow-y-auto overflow-x-hidden">
-          <SheetHeader className="mb-5">
+        <SheetContent className="w-[560px] sm:w-[640px] px-10 py-6 flex flex-col h-full overflow-hidden">
+          <SheetHeader className="flex-shrink-0 mb-4">
             <SheetTitle className="text-xl font-semibold text-stone-900">Zeitblock {selectedRow?.time}</SheetTitle>
             <p className="text-sm text-stone-500">5-Minuten Aufnahme und Vitalwerte</p>
           </SheetHeader>
 
           {selectedRow && (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 flex-1 min-h-0">
               {/* Video Section */}
               <div className="flex-shrink-0">
-                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-stone-900 group cursor-pointer">
+                <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-stone-900 group cursor-pointer">
                   <video
                     className="w-full h-full object-cover opacity-90"
-                    poster={`/placeholder.svg?height=280&width=640&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
+                    poster={`/placeholder.svg?height=200&width=560&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
                   >
                     <source src={`/videos/op-${selectedRow.time.replace(":", "-")}.mp4`} type="video/mp4" />
                   </video>
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                      <Play className="w-6 h-6 text-stone-900 ml-1" />
+                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <Play className="w-5 h-5 text-stone-900 ml-0.5" />
                     </div>
                   </div>
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span className="text-white text-xs font-medium bg-stone-900/50 px-2.5 py-1 rounded-full">
+                  <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+                    <span className="text-white text-xs font-medium bg-stone-900/50 px-2 py-0.5 rounded-full">
                       {selectedRow.time} - {selectedRow.time.split(":")[0]}:
                       {String(Number(selectedRow.time.split(":")[1]) + 5).padStart(2, "0")}
                     </span>
-                    <span className="text-white/80 text-xs bg-stone-900/50 px-2 py-1 rounded-full">5:00</span>
+                    <span className="text-white/80 text-xs bg-stone-900/50 px-2 py-0.5 rounded-full">5:00</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex-shrink-0">
-                <div className="flex flex-wrap items-center gap-4">
+              <div className="flex-shrink-0 border border-stone-200 rounded-lg p-3 bg-white">
+                <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                    <Heart className="w-4 h-4 text-rose-500" />
-                    <span className="text-sm text-stone-600">Puls</span>
-                    <span className="text-base font-semibold text-stone-900">{selectedRow.puls}</span>
+                    <div className="w-2 h-2 rounded-full bg-rose-500" />
+                    <Heart className="w-3.5 h-3.5 text-rose-500" />
+                    <span className="text-sm font-semibold text-stone-900">{selectedRow.puls}</span>
                     <span className="text-xs text-stone-400">bpm</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <Wind className="w-4 h-4 text-emerald-500" />
-                    <span className="text-sm text-stone-600">SpO₂</span>
-                    <span className="text-base font-semibold text-stone-900">{selectedRow.spo2}</span>
+                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <Wind className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-sm font-semibold text-stone-900">{selectedRow.spo2}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                    <Gauge className="w-4 h-4 text-amber-500" />
-                    <span className="text-sm text-stone-600">MBAR</span>
-                    <span className="text-base font-semibold text-stone-900">{selectedRow.mbar}</span>
+                    <div className="w-2 h-2 rounded-full bg-amber-500" />
+                    <Gauge className="w-3.5 h-3.5 text-amber-500" />
+                    <span className="text-sm font-semibold text-stone-900">{selectedRow.mbar}</span>
+                    <span className="text-xs text-stone-400">mbar</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                    <Activity className="w-4 h-4 text-blue-500" />
-                    <span className="text-sm text-stone-600">CO₂</span>
-                    <span className="text-base font-semibold text-stone-900">{selectedRow.co2}</span>
+                    <div className="w-2 h-2 rounded-full bg-blue-500" />
+                    <Activity className="w-3.5 h-3.5 text-blue-500" />
+                    <span className="text-sm font-semibold text-stone-900">{selectedRow.co2}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 flex-1 min-h-0">
                 {/* Puls & SpO2 combined */}
-                <div className="rounded-lg border border-stone-200 bg-white p-4">
-                  <div className="flex items-center gap-4 mb-2">
-                    <div className="flex items-center gap-1.5">
+                <div className="rounded-lg border border-stone-200 bg-white p-3">
+                  <div className="flex items-center gap-4 mb-1">
+                    <div className="flex items-center gap-1">
                       <div className="w-2 h-2 rounded-full bg-rose-500" />
                       <span className="text-xs text-stone-500">Puls</span>
                     </div>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1">
                       <div className="w-2 h-2 rounded-full bg-emerald-500" />
                       <span className="text-xs text-stone-500">SpO₂</span>
                     </div>
@@ -428,13 +423,13 @@ export default function SmartProtokollPage() {
                 </div>
 
                 {/* CO2 & MBAR combined */}
-                <div className="rounded-lg border border-stone-200 bg-white p-4">
-                  <div className="flex items-center gap-4 mb-2">
-                    <div className="flex items-center gap-1.5">
+                <div className="rounded-lg border border-stone-200 bg-white p-3">
+                  <div className="flex items-center gap-4 mb-1">
+                    <div className="flex items-center gap-1">
                       <div className="w-2 h-2 rounded-full bg-blue-500" />
                       <span className="text-xs text-stone-500">CO₂ (x10)</span>
                     </div>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1">
                       <div className="w-2 h-2 rounded-full bg-amber-500" />
                       <span className="text-xs text-stone-500">MBAR</span>
                     </div>
