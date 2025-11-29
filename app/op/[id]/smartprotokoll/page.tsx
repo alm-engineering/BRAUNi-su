@@ -223,7 +223,9 @@ export default function SmartProtokollPage() {
   }
 
   return (
-    <div className="px-6 py-8 pb-24">
+    <div className="max-w-7xl mx-auto px-6 py-8 pb-24">
+      <h1 className="text-2xl font-semibold mb-6">smartProtokoll</h1>
+
       <div className="flex items-center gap-3 mb-4">
         <span className="text-xs uppercase tracking-wide text-stone-400 font-medium">Datenquellen:</span>
         <div className="flex items-center gap-2">

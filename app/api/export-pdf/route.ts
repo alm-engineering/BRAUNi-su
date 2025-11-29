@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
-    const { sentences, patientInfo } = await request.json()
+    const { sentences, patientInfo, postoperativeText } = await request.json()
 
     // Combine sentences into full text
     const fullText = sentences.join(" ")
@@ -23,6 +23,8 @@ export async function POST(request: NextRequest) {
               font-size: 11pt;
               line-height: 1.6;
               color: #000;
+              /* Added horizontal padding to body */
+              padding: 0 2cm;
             }
             .header {
               display: flex;
@@ -50,6 +52,11 @@ export async function POST(request: NextRequest) {
               font-weight: bold;
               margin: 30px 0 20px 0;
             }
+            h2 {
+              font-size: 13pt;
+              font-weight: bold;
+              margin: 30px 0 15px 0;
+            }
             .info-table {
               width: 100%;
               border-collapse: collapse;
@@ -67,6 +74,11 @@ export async function POST(request: NextRequest) {
             .content {
               margin-top: 30px;
               text-align: justify;
+            }
+            .postoperative-section {
+              margin-top: 40px;
+              padding-top: 20px;
+              border-top: 1px solid #ccc;
             }
             .footer-note {
               margin-top: 30px;
@@ -137,6 +149,19 @@ export async function POST(request: NextRequest) {
           <div class="content">
             <p>${fullText}</p>
           </div>
+
+          ${
+            postoperativeText
+              ? `
+          <div class="postoperative-section">
+            <h2>POSTOPERATIVE ANFORDERUNGEN</h2>
+            <div class="content">
+              <p>${postoperativeText}</p>
+            </div>
+          </div>
+          `
+              : ""
+          }
 
           <div class="footer-note">
             <p><strong>Procedere:</strong> Siehe Anordnungen und Einträge in MEONA.</p>

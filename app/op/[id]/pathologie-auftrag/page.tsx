@@ -28,7 +28,9 @@ export default function PathologieAuftragPage() {
   })
 
   return (
-    <div className="px-6 py-8 pb-32">
+    <div className="max-w-7xl mx-auto px-6 py-8 pb-32">
+      <h1 className="text-2xl font-semibold mb-6">Pathologie Auftrag</h1>
+
       <div className="max-w-4xl">
         <div className="space-y-6">
           {/* Kostenträger */}

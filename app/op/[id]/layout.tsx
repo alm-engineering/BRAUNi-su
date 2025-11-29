@@ -27,12 +27,16 @@ export default function OpLayout({ children, params }: OpLayoutProps) {
   const handlePdfExport = async () => {
     try {
       const storageKey = `op-${id}-sentences`
-      console.log("[v0] Attempting to read from localStorage:", storageKey)
+      const postopKey = `op-${id}-postoperative`
+      console.log("[v0] Attempting to read from localStorage:", storageKey, postopKey)
 
       const storedData = localStorage.getItem(storageKey)
+      const postopData = localStorage.getItem(postopKey)
       console.log("[v0] Raw localStorage data:", storedData)
+      console.log("[v0] Postoperative data:", postopData)
 
       const sentences = storedData ? JSON.parse(storedData) : []
+      const postoperativeText = postopData || ""
       console.log("[v0] Parsed sentences:", sentences.length)
 
       if (sentences.length === 0) {
@@ -48,6 +52,7 @@ export default function OpLayout({ children, params }: OpLayoutProps) {
         },
         body: JSON.stringify({
           sentences,
+          postoperativeText,
           patientInfo: {
             name: "Anna Richter, 12.04.1983, 42 Jahre",
             opDate: "28.11.2025",
@@ -85,15 +90,17 @@ export default function OpLayout({ children, params }: OpLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="flex h-[50px] items-center bg-primary px-6 shadow-sm">
-        <Link href="/" className="inline-flex items-center gap-2 text-white transition-opacity hover:opacity-90">
-          <ChevronLeft className="h-5 w-5" />
-          <Image src="/brauni-logo-white.svg" alt="BRAUNi" width={140} height={20} className="h-5 w-auto" />
-        </Link>
+      <header className="flex h-[50px] items-center bg-primary shadow-sm">
+        <div className="mx-auto w-full max-w-7xl px-6">
+          <Link href="/" className="inline-flex items-center gap-2 text-white transition-opacity hover:opacity-90">
+            <ChevronLeft className="h-5 w-5" />
+            <Image src="/brauni-logo-white.svg" alt="BRAUNi" width={140} height={20} className="h-5 w-auto" />
+          </Link>
+        </div>
       </header>
 
       <div className="border-b bg-white shadow-sm">
-        <div className="flex gap-8 px-6">
+        <div className="mx-auto flex max-w-7xl gap-8 px-6">
           {tabs.map((tab) => {
             const isActive = pathname === tab.path
             return (
@@ -112,11 +119,10 @@ export default function OpLayout({ children, params }: OpLayoutProps) {
           })}
         </div>
       </div>
-
       {children}
 
-      <div className="fixed bottom-0 left-0 right-0 border-t bg-white px-6 py-4 shadow-lg">
-        <div className="flex items-center justify-end gap-4">
+      <div className="fixed bottom-0 left-0 right-0 border-t bg-white shadow-lg">
+        <div className="mx-auto flex max-w-7xl items-center justify-end gap-4 px-6 py-4">
           <button className="inline-flex items-center gap-2 rounded-lg bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-all hover:shadow-md hover:brightness-110">
             <Upload className="h-4 w-4" />
             In KIS exportieren
