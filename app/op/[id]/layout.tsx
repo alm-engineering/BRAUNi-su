@@ -1,20 +1,21 @@
 "use client"
 
-import React, { use } from "react"
+import type React from "react"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { ChevronLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface OpLayoutProps {
   children: React.ReactNode
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 export default function OpLayout({ children, params }: OpLayoutProps) {
   const pathname = usePathname()
-  const { id } = use(params)
+  const id = params.id
 
   const tabs = [
     { id: "operationsbericht", label: "Operationsbericht", path: `/op/${id}/operationsbericht` },
@@ -84,17 +85,15 @@ export default function OpLayout({ children, params }: OpLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-primary p-6 shadow-sm">
-        <div className="mx-auto max-w-7xl">
-          <Link href="/" className="inline-flex items-center gap-2 text-white transition-opacity hover:opacity-90">
-            <ChevronLeft className="h-6 w-6" />
-            <span className="text-3xl font-bold">BRAUNi</span>
-          </Link>
-        </div>
+      <header className="flex h-[50px] items-center bg-primary px-6 shadow-sm">
+        <Link href="/" className="inline-flex items-center gap-2 text-white transition-opacity hover:opacity-90">
+          <ChevronLeft className="h-5 w-5" />
+          <Image src="/brauni-logo-white.svg" alt="BRAUNi" width={140} height={20} className="h-5 w-auto" />
+        </Link>
       </header>
 
       <div className="border-b bg-white shadow-sm">
-        <div className="mx-auto flex max-w-7xl gap-8 px-6">
+        <div className="flex gap-8 px-6">
           {tabs.map((tab) => {
             const isActive = pathname === tab.path
             return (
