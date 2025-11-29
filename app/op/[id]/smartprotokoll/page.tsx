@@ -353,128 +353,183 @@ export default function SmartProtokollPage() {
       </table>
 
       <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <SheetContent className="w-[560px] sm:w-[640px] px-10 py-6 flex flex-col h-full overflow-hidden">
-          <SheetHeader className="flex-shrink-0 mb-4">
-            <SheetTitle className="text-xl font-semibold text-stone-900">Zeitblock {selectedRow?.time}</SheetTitle>
-            <p className="text-sm text-stone-500">{selectedRow?.chirurg?.label}</p>
+        <SheetContent className="w-[520px] sm:w-[580px] px-6 py-4 flex flex-col h-full overflow-hidden">
+          <SheetHeader className="flex-shrink-0 mb-2">
+            <SheetTitle className="text-lg font-semibold text-stone-900">Zeitblock {selectedRow?.time}</SheetTitle>
+            <p className="text-xs text-stone-500">{selectedRow?.chirurg?.label}</p>
           </SheetHeader>
 
           {selectedRow && (
-            <div className="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
-              {/* Video Section */}
+            <div className="flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
               <div className="flex-shrink-0">
-                <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-stone-900 group cursor-pointer">
+                <div className="relative aspect-video w-full max-h-32 rounded-lg overflow-hidden bg-stone-900 group cursor-pointer">
                   <video
                     className="w-full h-full object-cover opacity-90"
-                    poster={`/placeholder.svg?height=200&width=560&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
+                    poster={`/placeholder.svg?height=128&width=400&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
                   >
                     <source src={`/videos/op-${selectedRow.time.replace(":", "-")}.mp4`} type="video/mp4" />
                   </video>
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                      <Play className="w-5 h-5 text-stone-900 ml-0.5" />
+                    <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <Play className="w-4 h-4 text-stone-900 ml-0.5" />
                     </div>
                   </div>
-                  <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-                    <span className="text-white text-xs font-medium bg-stone-900/50 px-2 py-0.5 rounded-full">
+                  <div className="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between">
+                    <span className="text-white text-[10px] font-medium bg-stone-900/50 px-1.5 py-0.5 rounded-full">
                       {selectedRow.time} - {selectedRow.time.split(":")[0]}:
                       {String(Number(selectedRow.time.split(":")[1]) + 5).padStart(2, "0")}
                     </span>
-                    <span className="text-white/80 text-xs bg-stone-900/50 px-2 py-0.5 rounded-full">5:00</span>
+                    <span className="text-white/80 text-[10px] bg-stone-900/50 px-1.5 py-0.5 rounded-full">5:00</span>
                   </div>
                 </div>
               </div>
 
-              {/* OP-Bericht text section */}
+              <div className="flex-shrink-0 border border-stone-200 rounded-lg p-2 bg-white">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                    <Heart className="w-3 h-3 text-rose-500" />
+                    <span className="text-xs font-semibold text-stone-900">{selectedRow.puls}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    <Wind className="w-3 h-3 text-emerald-500" />
+                    <span className="text-xs font-semibold text-stone-900">{selectedRow.spo2}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                    <Gauge className="w-3 h-3 text-amber-500" />
+                    <span className="text-xs font-semibold text-stone-900">{selectedRow.mbar}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                    <Activity className="w-3 h-3 text-blue-500" />
+                    <span className="text-xs font-semibold text-stone-900">{selectedRow.co2}</span>
+                  </div>
+                </div>
+              </div>
+
               {selectedRow.reportText && (
-                <div className="flex-shrink-0 border border-stone-200 rounded-lg p-4 bg-stone-50">
-                  <h4 className="text-xs uppercase tracking-wide text-stone-400 font-medium mb-2">OP-Bericht</h4>
-                  <p className="text-sm text-stone-700 leading-relaxed">{selectedRow.reportText}</p>
+                <div className="flex-shrink-0 border border-stone-200 rounded-lg p-3 bg-stone-50">
+                  <h4 className="text-[10px] uppercase tracking-wide text-stone-400 font-medium mb-1">OP-Bericht</h4>
+                  <p className="text-xs text-stone-700 leading-relaxed">{selectedRow.reportText}</p>
                 </div>
               )}
 
-              {/* Vital values row */}
-              <div className="flex-shrink-0 border border-stone-200 rounded-lg p-3 bg-white">
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-rose-500" />
-                    <Heart className="w-3.5 h-3.5 text-rose-500" />
-                    <span className="text-sm font-semibold text-stone-900">{selectedRow.puls}</span>
-                    <span className="text-xs text-stone-400">bpm</span>
+              <div className="flex flex-col gap-2 flex-1 min-h-0">
+                <div className="rounded-lg border border-stone-200 bg-white p-2">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                      <span className="text-[10px] text-stone-500">Puls</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      <span className="text-[10px] text-stone-500">SpO₂</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <Wind className="w-3.5 h-3.5 text-emerald-500" />
-                    <span className="text-sm font-semibold text-stone-900">{selectedRow.spo2}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-amber-500" />
-                    <Gauge className="w-3.5 h-3.5 text-amber-500" />
-                    <span className="text-sm font-semibold text-stone-900">{selectedRow.mbar}</span>
-                    <span className="text-xs text-stone-400">mbar</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-blue-500" />
-                    <Activity className="w-3.5 h-3.5 text-blue-500" />
-                    <span className="text-sm font-semibold text-stone-900">{selectedRow.co2}</span>
+                  <div className="h-16">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="pulsGradientCompact" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#e11d48" stopOpacity={0.25} />
+                            <stop offset="95%" stopColor="#e11d48" stopOpacity={0.02} />
+                          </linearGradient>
+                          <linearGradient id="spo2GradientCompact" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#10b981" stopOpacity={0.25} />
+                            <stop offset="95%" stopColor="#10b981" stopOpacity={0.02} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
+                        <XAxis
+                          dataKey="time"
+                          tick={{ fontSize: 8, fill: "#a8a29e" }}
+                          axisLine={false}
+                          tickLine={false}
+                        />
+                        <YAxis
+                          domain={[50, 100]}
+                          tick={{ fontSize: 8, fill: "#a8a29e" }}
+                          axisLine={false}
+                          tickLine={false}
+                          width={20}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="puls"
+                          stroke="#e11d48"
+                          strokeWidth={1.5}
+                          fill="url(#pulsGradientCompact)"
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="spo2"
+                          stroke="#10b981"
+                          strokeWidth={1.5}
+                          fill="url(#spo2GradientCompact)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col gap-3 flex-1 min-h-0">
-                {/* Puls & SpO2 combined */}
-                <div className="rounded-lg border border-stone-200 bg-white p-3">
-                  <div className="flex items-center gap-4 mb-1">
+                <div className="rounded-lg border border-stone-200 bg-white p-2">
+                  <div className="flex items-center gap-3 mb-1">
                     <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-rose-500" />
-                      <span className="text-xs text-stone-500">Puls</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                      <span className="text-[10px] text-stone-500">CO₂</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                      <span className="text-xs text-stone-500">SpO₂</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                      <span className="text-[10px] text-stone-500">MBAR</span>
                     </div>
                   </div>
-                  <VitalChart
-                    data={chartData}
-                    dataKey="puls"
-                    dataKey2="spo2"
-                    color="#e11d48"
-                    color2="#10b981"
-                    gradientId="pulsGradientNew"
-                    gradientId2="spo2GradientNew"
-                    label="Puls"
-                    label2="SpO₂"
-                    unit=""
-                    domain={[50, 100]}
-                  />
-                </div>
-
-                {/* CO2 & MBAR combined */}
-                <div className="rounded-lg border border-stone-200 bg-white p-3">
-                  <div className="flex items-center gap-4 mb-1">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span className="text-xs text-stone-500">CO₂ (x10)</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-amber-500" />
-                      <span className="text-xs text-stone-500">MBAR</span>
-                    </div>
+                  <div className="h-16">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="co2GradientCompact" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.25} />
+                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.02} />
+                          </linearGradient>
+                          <linearGradient id="mbarGradientCompact" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.25} />
+                            <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.02} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
+                        <XAxis
+                          dataKey="time"
+                          tick={{ fontSize: 8, fill: "#a8a29e" }}
+                          axisLine={false}
+                          tickLine={false}
+                        />
+                        <YAxis
+                          domain={[0, 20]}
+                          tick={{ fontSize: 8, fill: "#a8a29e" }}
+                          axisLine={false}
+                          tickLine={false}
+                          width={20}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="co2"
+                          stroke="#3b82f6"
+                          strokeWidth={1.5}
+                          fill="url(#co2GradientCompact)"
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="mbar"
+                          stroke="#f59e0b"
+                          strokeWidth={1.5}
+                          fill="url(#mbarGradientCompact)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
-                  <VitalChart
-                    data={chartData.map((d) => ({ ...d, co2Scaled: d.co2 * 10 }))}
-                    dataKey="co2Scaled"
-                    dataKey2="mbar"
-                    color="#3b82f6"
-                    color2="#f59e0b"
-                    gradientId="co2GradientNew"
-                    gradientId2="mbarGradientNew"
-                    label="CO₂"
-                    label2="MBAR"
-                    unit=""
-                    domain={[0, 60]}
-                  />
                 </div>
               </div>
             </div>
