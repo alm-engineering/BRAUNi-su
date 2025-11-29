@@ -223,7 +223,7 @@ export default function SmartProtokollPage() {
     <div className="px-6 py-8">
       <div className="bg-white border border-stone-200 rounded-xl p-6">
         <div className="relative">
-          <div className="absolute left-[84px] top-0 bottom-0 w-px bg-stone-200" />
+          <div className="absolute left-[77px] top-0 bottom-0 w-px bg-stone-200" />
 
           <div className="flex items-center gap-4 mb-6 pl-24">
             <span className="text-xs uppercase tracking-wide text-stone-400 font-medium w-[35%]">Chirurg</span>
@@ -239,10 +239,10 @@ export default function SmartProtokollPage() {
                 className="relative flex items-start gap-4 py-3 pl-24 pr-2 hover:bg-stone-50 cursor-pointer transition-colors group rounded-lg"
               >
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
-                  <span className="font-mono text-sm text-stone-400 group-hover:text-stone-900 transition-colors w-16 text-right pr-2">
+                  <span className="font-mono text-sm text-stone-400 group-hover:text-stone-900 transition-colors w-[70px] text-right pr-3">
                     {row.time}
                   </span>
-                  <div className="w-3 h-3 rounded-full bg-white border-2 border-stone-300 group-hover:border-stone-500 group-hover:bg-stone-500 transition-colors" />
+                  <div className="w-3 h-3 rounded-full bg-white border-2 border-stone-300 group-hover:border-stone-500 group-hover:bg-stone-500 transition-colors z-10" />
                 </div>
 
                 <div className="flex items-start gap-4 flex-1 min-h-[44px]">
