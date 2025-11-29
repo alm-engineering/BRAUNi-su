@@ -1,6 +1,6 @@
 "use client"
 
-import { Link, TrendingUp, Syringe, Droplets, Pill, AlertTriangle, Activity } from "lucide-react"
+import { Link, TrendingUp, Syringe, Droplets, Pill, AlertTriangle, Activity, Scissors } from "lucide-react"
 
 interface VitalRow {
   time: string
@@ -10,13 +10,13 @@ interface VitalRow {
   spo2?: string
   ekg?: string
   rhytm?: number
-  chirurg?: { type: "spuelung" | "biopsie" | "insufflation" | "other"; label: string } | null
+  chirurg?: { type: "spuelung" | "biopsie" | "insufflation" | "schnitt" | "other"; label: string } | null
   anesist?: { type: "adrenalin" | "propofol" | "fentanyl" | "other"; label: string } | null
   event?: { type: "puls_sprung" | "spo2_drop" | "bp_change" | "alert" | "other"; label: string } | null
 }
 
 const protocolData: VitalRow[] = [
-  // Start of procedure - patient sedation
+  // 00:00 - Zugang und CO₂-Anlage
   {
     time: "00:00",
     puls: 72,
@@ -25,170 +25,104 @@ const protocolData: VitalRow[] = [
     spo2: "99%",
     ekg: "OK",
     rhytm: 72,
+    chirurg: { type: "schnitt", label: "Zugang und CO₂-Anlage" },
     anesist: { type: "propofol", label: "Propofol 200mg" },
   },
-  { time: "00:01", puls: 68, co2: "4,6%", mbar: 0, spo2: "98%", ekg: "OK", rhytm: 68 },
+  // 00:05 - Exploration und Retraktion
   {
-    time: "00:02",
-    puls: 65,
-    co2: "4,5%",
-    mbar: 0,
-    spo2: "98%",
-    ekg: "OK",
-    rhytm: 65,
-    anesist: { type: "fentanyl", label: "Fentanyl 50µg" },
-  },
-  {
-    time: "00:03",
-    puls: 64,
-    co2: "4,5%",
-    mbar: 8,
-    spo2: "97%",
-    ekg: "OK",
-    rhytm: 64,
-    chirurg: { type: "insufflation", label: "Insufflation Start" },
-  },
-  { time: "00:04", puls: 66, co2: "4,7%", mbar: 10, spo2: "97%", ekg: "OK", rhytm: 66 },
-  { time: "00:05", puls: 68, co2: "4,8%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 68 },
-  // Scope insertion
-  {
-    time: "00:06",
-    puls: 74,
-    co2: "5,0%",
-    mbar: 12,
-    spo2: "96%",
-    ekg: "OK",
-    rhytm: 74,
-    event: { type: "puls_sprung", label: "Puls +6" },
-  },
-  { time: "00:07", puls: 76, co2: "5,1%", mbar: 12, spo2: "96%", ekg: "OK", rhytm: 76 },
-  {
-    time: "00:08",
-    puls: 78,
-    co2: "5,2%",
-    mbar: 14,
-    spo2: "95%",
-    ekg: "OK",
-    rhytm: 78,
-    chirurg: { type: "spuelung", label: "Spülung" },
-  },
-  { time: "00:09", puls: 75, co2: "5,1%", mbar: 12, spo2: "96%", ekg: "OK", rhytm: 75 },
-  { time: "00:10", puls: 72, co2: "5,0%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 72 },
-  // Examination phase
-  { time: "00:12", puls: 70, co2: "4,9%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 70 },
-  {
-    time: "00:14",
-    puls: 71,
-    co2: "4,9%",
-    mbar: 14,
-    spo2: "97%",
-    ekg: "OK",
-    rhytm: 71,
-    chirurg: { type: "spuelung", label: "Spülung" },
-  },
-  { time: "00:16", puls: 69, co2: "4,8%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 69 },
-  {
-    time: "00:18",
+    time: "00:05",
     puls: 68,
-    co2: "4,8%",
+    co2: "5,2%",
     mbar: 12,
-    spo2: "98%",
+    spo2: "97%",
     ekg: "OK",
     rhytm: 68,
-    anesist: { type: "propofol", label: "Propofol 50mg" },
+    chirurg: { type: "other", label: "Exploration und Retraktion" },
+    anesist: { type: "fentanyl", label: "Fentanyl 50µg" },
   },
-  { time: "00:20", puls: 65, co2: "4,7%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 65 },
-  // Biopsy taken
+  // 00:10 - Präparation Calot-Dreieck
   {
-    time: "00:22",
-    puls: 82,
-    co2: "5,4%",
-    mbar: 14,
-    spo2: "95%",
-    ekg: "OK",
-    rhytm: 82,
-    chirurg: { type: "biopsie", label: "Biopsie Antrum" },
-    event: { type: "puls_sprung", label: "Puls +17" },
-  },
-  {
-    time: "00:23",
-    puls: 85,
-    co2: "5,5%",
-    mbar: 14,
-    spo2: "94%",
-    ekg: "OK",
-    rhytm: 85,
-    event: { type: "spo2_drop", label: "SpO₂ Drop" },
-  },
-  {
-    time: "00:24",
-    puls: 80,
-    co2: "5,3%",
-    mbar: 12,
-    spo2: "95%",
-    ekg: "OK",
-    rhytm: 80,
-    anesist: { type: "adrenalin", label: "O₂ erhöht" },
-  },
-  { time: "00:25", puls: 76, co2: "5,1%", mbar: 12, spo2: "96%", ekg: "OK", rhytm: 76 },
-  {
-    time: "00:26",
+    time: "00:10",
     puls: 74,
-    co2: "5,0%",
+    co2: "5,4%",
     mbar: 12,
     spo2: "97%",
     ekg: "OK",
     rhytm: 74,
-    chirurg: { type: "spuelung", label: "Spülung" },
+    chirurg: { type: "schnitt", label: "Präparation Calot-Dreieck" },
+    event: { type: "puls_sprung", label: "Puls +6" },
   },
-  // Second biopsy
-  { time: "00:28", puls: 72, co2: "4,9%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 72 },
+  // 00:15 - Clipapplikation und Durchtrennung
   {
-    time: "00:30",
-    puls: 78,
-    co2: "5,2%",
+    time: "00:15",
+    puls: 82,
+    co2: "5,6%",
     mbar: 14,
     spo2: "96%",
     ekg: "OK",
-    rhytm: 78,
-    chirurg: { type: "biopsie", label: "Biopsie Corpus" },
+    rhytm: 82,
+    chirurg: { type: "schnitt", label: "Clipapplikation und Durchtrennung" },
+    anesist: { type: "propofol", label: "Propofol 50mg" },
+    event: { type: "puls_sprung", label: "Puls +8" },
   },
-  { time: "00:32", puls: 74, co2: "5,0%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 74 },
+  // 00:20 - Retrograde Dissektion
   {
-    time: "00:34",
-    puls: 71,
-    co2: "4,9%",
+    time: "00:20",
+    puls: 78,
+    co2: "5,4%",
     mbar: 12,
     spo2: "97%",
     ekg: "OK",
-    rhytm: 71,
+    rhytm: 78,
+    chirurg: { type: "schnitt", label: "Retrograde Dissektion" },
+  },
+  // 00:25 - Ablösung Gallenblase
+  {
+    time: "00:25",
+    puls: 85,
+    co2: "5,8%",
+    mbar: 14,
+    spo2: "95%",
+    ekg: "OK",
+    rhytm: 85,
+    chirurg: { type: "schnitt", label: "Ablösung Gallenblase" },
+    anesist: { type: "adrenalin", label: "O₂ erhöht" },
+    event: { type: "spo2_drop", label: "SpO₂ Drop -2%" },
+  },
+  // 00:30 - Einbringen Bergebeutel
+  {
+    time: "00:30",
+    puls: 76,
+    co2: "5,4%",
+    mbar: 12,
+    spo2: "97%",
+    ekg: "OK",
+    rhytm: 76,
+    chirurg: { type: "other", label: "Einbringen Bergebeutel" },
     anesist: { type: "propofol", label: "Propofol 30mg" },
   },
+  // 00:35 - Finale Kontrolle
   {
-    time: "00:36",
-    puls: 68,
-    co2: "4,8%",
+    time: "00:35",
+    puls: 70,
+    co2: "5,0%",
     mbar: 10,
     spo2: "98%",
     ekg: "OK",
-    rhytm: 68,
-    chirurg: { type: "spuelung", label: "Spülung" },
+    rhytm: 70,
+    chirurg: { type: "spuelung", label: "Finale Kontrolle" },
   },
-  // Withdrawal phase
-  { time: "00:38", puls: 66, co2: "4,7%", mbar: 8, spo2: "98%", ekg: "OK", rhytm: 66 },
+  // 00:40 - Extraktion und Abschluss
   {
     time: "00:40",
-    puls: 64,
+    puls: 66,
     co2: "4,6%",
-    mbar: 6,
-    spo2: "98%",
+    mbar: 0,
+    spo2: "99%",
     ekg: "OK",
-    rhytm: 64,
-    chirurg: { type: "insufflation", label: "Insufflation Stop" },
+    rhytm: 66,
+    chirurg: { type: "insufflation", label: "Extraktion und Abschluss" },
   },
-  { time: "00:42", puls: 66, co2: "4,5%", mbar: 0, spo2: "99%", ekg: "OK", rhytm: 66 },
-  { time: "00:44", puls: 68, co2: "4,5%", mbar: 0, spo2: "99%", ekg: "OK", rhytm: 68 },
-  { time: "00:45", puls: 70, co2: "4,6%", mbar: 0, spo2: "99%", ekg: "OK", rhytm: 70 },
 ]
 
 function EmptyCell() {
@@ -211,6 +145,8 @@ function ActionTag({
       {type === "spuelung" && <Droplets className="h-4 w-4" />}
       {type === "biopsie" && <Link className="h-4 w-4" />}
       {type === "insufflation" && <Activity className="h-4 w-4" />}
+      {type === "schnitt" && <Scissors className="h-4 w-4" />}
+      {type === "other" && <Activity className="h-4 w-4" />}
       {type === "adrenalin" && <Syringe className="h-4 w-4" />}
       {type === "propofol" && <Pill className="h-4 w-4" />}
       {type === "fentanyl" && <Syringe className="h-4 w-4" />}
@@ -247,7 +183,7 @@ export default function SmartProtokollPage() {
             {protocolData.map((row, index) => (
               <tr
                 key={index}
-                className="border-b border-stone-100 transition-colors duration-150 hover:bg-stone-50 cursor-pointer"
+                className="border-b border-stone-100 transition-colors duration-150 hover:bg-stone-100 cursor-pointer"
               >
                 {/* Time column */}
                 <td className="py-3 pr-4 font-mono text-sm text-muted-foreground">{row.time}</td>
