@@ -31,8 +31,8 @@ export default function OperationsberichtPage() {
 
   const [originalSentences] = useState([...sentences])
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-  const [editedText, setEditedText] = useState("")
+  const [selectedIndex, setSelectedIndex] = useState<number>(0)
+  const [editedText, setEditedText] = useState(sentences[0])
   const [isRecording, setIsRecording] = useState(false)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioChunksRef = useRef<Blob[]>([])
@@ -133,7 +133,6 @@ export default function OperationsberichtPage() {
   }
 
   const handleSave = () => {
-    if (selectedIndex === null) return
     if (editedText.trim()) {
       const newSentences = [...sentences]
       newSentences[selectedIndex] = editedText
@@ -146,7 +145,6 @@ export default function OperationsberichtPage() {
   }
 
   const handleUndoAI = () => {
-    if (selectedIndex === null) return
     const originalText = originalSentences[selectedIndex]
     setEditedText(originalText)
     const newSentences = [...sentences]
@@ -174,7 +172,7 @@ export default function OperationsberichtPage() {
         {/* Main Content */}
         <div className="flex-1">
           <div className="rounded-lg border bg-card p-8">
-            <p className="text-muted-foreground leading-loose">
+            <p className="text-muted-foreground leading-relaxed">
               {sentences.map((sentence, index) => (
                 <span
                   key={index}
@@ -196,76 +194,68 @@ export default function OperationsberichtPage() {
         {/* Sidebar */}
         <aside className="w-80 sticky top-6">
           <div className="rounded-lg border bg-card p-6 h-full">
-            {selectedIndex === null ? (
-              <div className="flex items-center justify-center h-full min-h-[300px] text-muted-foreground text-sm">
-                Klicken Sie auf einen Satz, um ihn zu bearbeiten
+            <div className="flex items-center justify-between mb-4 h-8">
+              <h3 className="font-semibold">Ausgewählter Text</h3>
+              {editedText !== originalSentences[selectedIndex] && (
+                <Button
+                  onClick={handleUndoAI}
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  title="Änderungen verwerfen"
+                >
+                  <Undo2 className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <div className="text-xs text-muted-foreground">Satz {selectedIndex + 1}</div>
+
+              <Textarea
+                value={editedText}
+                onChange={(e) => setEditedText(e.target.value)}
+                className="min-h-[200px] text-sm"
+                placeholder="Text bearbeiten..."
+                disabled={isRecording || isTranscribing}
+              />
+
+              {isRecording && (
+                <p className="text-xs text-muted-foreground animate-pulse">Sprechen Sie Ihr Feedback...</p>
+              )}
+              {isTranscribing && (
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  Transkription läuft...
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Button
+                  onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
+                  variant="outline"
+                  size="sm"
+                  className="w-full bg-transparent"
+                  disabled={isTranscribing}
+                >
+                  {isRecording ? (
+                    <>
+                      <MicOff className="w-4 h-4 mr-2" />
+                      Feedback stoppen
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="w-4 h-4 mr-2" />
+                      Feedback starten
+                    </>
+                  )}
+                </Button>
+
+                <Button onClick={handleSave} size="sm" className="w-full" disabled={isRecording || isTranscribing}>
+                  Speichern
+                </Button>
               </div>
-            ) : (
-              <>
-                <div className="flex items-center justify-between mb-4 h-8">
-                  <h3 className="font-semibold">Ausgewählter Text</h3>
-                  {editedText !== originalSentences[selectedIndex] && (
-                    <Button
-                      onClick={handleUndoAI}
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      title="Änderungen verwerfen"
-                    >
-                      <Undo2 className="w-4 h-4" />
-                    </Button>
-                  )}
-                </div>
-
-                <div className="space-y-4">
-                  <div className="text-xs text-muted-foreground">Satz {selectedIndex + 1}</div>
-
-                  <Textarea
-                    value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
-                    className="min-h-[200px] text-sm"
-                    placeholder="Text bearbeiten..."
-                    disabled={isRecording || isTranscribing}
-                  />
-
-                  {isRecording && (
-                    <p className="text-xs text-muted-foreground animate-pulse">Sprechen Sie Ihr Feedback...</p>
-                  )}
-                  {isTranscribing && (
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      Transkription läuft...
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <Button
-                      onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
-                      variant="outline"
-                      size="sm"
-                      className="w-full bg-transparent"
-                      disabled={isTranscribing}
-                    >
-                      {isRecording ? (
-                        <>
-                          <MicOff className="w-4 h-4 mr-2" />
-                          Feedback stoppen
-                        </>
-                      ) : (
-                        <>
-                          <Mic className="w-4 h-4 mr-2" />
-                          Feedback starten
-                        </>
-                      )}
-                    </Button>
-
-                    <Button onClick={handleSave} size="sm" className="w-full" disabled={isRecording || isTranscribing}>
-                      Speichern
-                    </Button>
-                  </div>
-                </div>
-              </>
-            )}
+            </div>
           </div>
         </aside>
       </div>
