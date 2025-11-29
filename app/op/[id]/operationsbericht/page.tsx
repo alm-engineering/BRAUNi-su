@@ -336,7 +336,7 @@ export default function OperationsberichtPage() {
           <aside className="self-start sticky top-6">
             <div className="rounded-lg border bg-card p-6 h-full">
               {selectedIndex === null ? (
-                <div className="flex items-center justify-center h-full min-h-[300px] text-muted-foreground text-base">
+                <div className="flex items-center justify-center h-full min-h-[300px] text-muted-foreground text-base!">
                   Klicken Sie auf einen Satz, um ihn zu bearbeiten
                 </div>
               ) : (
@@ -362,7 +362,7 @@ export default function OperationsberichtPage() {
                     <Textarea
                       value={editedText}
                       onChange={(e) => setEditedText(e.target.value)}
-                      className="min-h-[200px] text-base leading-loose"
+                      className="min-h-[200px] text-base! leading-loose"
                       placeholder="Text bearbeiten..."
                       disabled={isRecording || isTranscribing}
                     />
@@ -423,7 +423,7 @@ export default function OperationsberichtPage() {
             <Textarea
               value={postoperativeText}
               onChange={(e) => setPostoperativeText(e.target.value)}
-              className="min-h-[200px] text-base leading-loose"
+              className="min-h-[200px] text-base! leading-loose"
               placeholder="Postoperative Anordnungen eingeben..."
               disabled={isRecordingPostop || isTranscribingPostop}
             />
