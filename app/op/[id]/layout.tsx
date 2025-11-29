@@ -1,10 +1,11 @@
 "use client"
 
-import type React from "react"
+import React from "react"
 
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { useParams } from "next/navigation"
 import { ChevronLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -15,7 +16,7 @@ interface OpLayoutProps {
 
 export default function OpLayout({ children, params }: OpLayoutProps) {
   const pathname = usePathname()
-  const id = params.id
+  const { id } = useParams<{ id: string }>()
 
   const tabs = [
     { id: "operationsbericht", label: "Operationsbericht", path: `/op/${id}/operationsbericht` },
