@@ -29,6 +29,7 @@ interface VitalRow {
   chirurg?: { type: "spuelung" | "biopsie" | "insufflation" | "schnitt" | "other"; label: string } | null
   anesist?: { type: "adrenalin" | "propofol" | "fentanyl" | "other"; label: string } | null
   event?: { type: "puls_sprung" | "spo2_drop" | "bp_change" | "alert" | "other"; label: string } | null
+  reportText?: string
 }
 
 const protocolData: VitalRow[] = [
@@ -43,6 +44,8 @@ const protocolData: VitalRow[] = [
     rhytm: 72,
     chirurg: { type: "schnitt", label: "Zugang und CO₂-Anlage" },
     anesist: { type: "propofol", label: "Propofol 200mg" },
+    reportText:
+      "Nach Einleitung der Allgemeinanästhesie und steriler Abdeckung des Operationsfeldes erfolgt der Zugang über eine subumbilikale Hautinzision. Die Veress-Nadel wird eingeführt und das Kapnoperitoneum mit CO₂ angelegt. Anschließend werden die Arbeitstrokare unter Sicht platziert. Die Trokarinzisionsstellen präsentieren sich trocken ohne aktive Blutung.",
   },
   // 00:05 - Exploration und Retraktion
   {
@@ -55,6 +58,8 @@ const protocolData: VitalRow[] = [
     rhytm: 68,
     chirurg: { type: "other", label: "Exploration und Retraktion" },
     anesist: { type: "fentanyl", label: "Fentanyl 50µg" },
+    reportText:
+      "Nach Einbringen der 30°-Optik zeigt sich bei der initialen Exploration des rechten Oberbauchs eine prall gefüllte Gallenblase mit bläulich-livider Wandverfärbung, vereinbar mit einer chronischen Cholezystitis. Die Leberoberfläche stellt sich mit glatter, glänzender Glisson-Kapsel und regelrechter bräunlich-roter Färbung dar. Es finden sich keine relevanten Adhäsionen im Zugangsbereich. Der Gallenblasenfundus wird mit einer atraumatischen Fasszange gefasst und zur kranialen Retraktion angehoben, um die Exposition des Calot-Dreiecks vorzubereiten.",
   },
   // 00:10 - Präparation Calot-Dreieck
   {
@@ -67,6 +72,8 @@ const protocolData: VitalRow[] = [
     rhytm: 74,
     chirurg: { type: "schnitt", label: "Präparation Calot-Dreieck" },
     event: { type: "puls_sprung", label: "Puls +6" },
+    reportText:
+      "Es erfolgt die systematische Präparation des Calot-Dreiecks zur Etablierung des Critical View of Safety. Das Gallenblaseninfundibulum wird mittels laparoskopischer Fasszange nach lateral und kranial retrahiert. Unter Verwendung eines Maryland-Dissektors wird der peritoneale Überzug sowohl stumpf als auch scharf disseziert. Der Ductus cysticus und die Arteria cystica werden sukzessive aus dem periduktalen Fett- und Bindegewebe freipräpariert und skeletonisiert. Die Dissektion gestaltet sich bei dezenten entzündlichen Veränderungen des perivaskulären Gewebes technisch unproblematisch. Das Operationsfeld bleibt während der gesamten Präparationsphase übersichtlich und weitgehend trocken, lediglich minimale Sickerblutungen im Dissektionsbereich sind zu verzeichnen.",
   },
   // 00:15 - Clipapplikation und Durchtrennung
   {
@@ -80,6 +87,8 @@ const protocolData: VitalRow[] = [
     chirurg: { type: "schnitt", label: "Clipapplikation und Durchtrennung" },
     anesist: { type: "propofol", label: "Propofol 50mg" },
     event: { type: "puls_sprung", label: "Puls +8" },
+    reportText:
+      "Nach vollständiger Darstellung des Critical View of Safety erfolgt die Clipversorgung der zystischen Strukturen. Am Ductus cysticus werden zwei Clips proximal und ein bis zwei Clips distal appliziert. Die Arteria cystica wird in gleicher Weise mit separaten Titanclips versorgt. Die korrekte Platzierung der Clips wird verifiziert. Das Operationsfeld zeigt sich nach erfolgter Clipapplikation trocken ohne Hinweise auf eine Leckage. Anschließend werden der Ductus cysticus und die Arteria cystica zwischen den applizierten Clips durchtrennt.",
   },
   // 00:20 - Retrograde Dissektion
   {
@@ -91,6 +100,8 @@ const protocolData: VitalRow[] = [
     ekg: "OK",
     rhytm: 78,
     chirurg: { type: "schnitt", label: "Retrograde Dissektion" },
+    reportText:
+      "Nach Durchtrennung der versorgten Strukturen beginnt die retrograde Dissektion der Gallenblase aus dem Leberbett. Unter Verwendung des Elektrokauters wird die Gallenblase schrittweise von der Fossa vesicae felleae abgelöst. Kleinere Gefäße im Leberbett werden mittels monopolarer Koagulation versorgt. Es zeigen sich im Dissektionsbereich Koagulationsspuren sowie eine geringe grünliche Verfärbung als Hinweis auf minimalen Galleaustritt, welcher klinisch nicht signifikant erscheint. Die Hämostase ist während der gesamten Dissektionsphase adäquat.",
   },
   // 00:25 - Ablösung Gallenblase
   {
@@ -104,6 +115,8 @@ const protocolData: VitalRow[] = [
     chirurg: { type: "schnitt", label: "Ablösung Gallenblase" },
     anesist: { type: "adrenalin", label: "O₂ erhöht" },
     event: { type: "spo2_drop", label: "SpO₂ Drop -2%" },
+    reportText:
+      "Die Ablösung der Gallenblase vom Leberbett wird fortgesetzt. Bei entzündlich verändertem Gewebe im Sinne einer chronischen Cholezystitis erfolgt die Präparation mit besonderer Sorgfalt. Fibrinöse Auflagerungen im Bereich des Gallenblasenbetts werden dargestellt. Die elektrochirurgische Dissektion ermöglicht eine suffiziente Blutstillung. Das Leberbett präsentiert sich nach weitgehender Mobilisation der Gallenblase mit koagulierter Oberfläche ohne aktive Blutungsquellen.",
   },
   // 00:30 - Einbringen Bergebeutel
   {
@@ -116,6 +129,8 @@ const protocolData: VitalRow[] = [
     rhytm: 76,
     chirurg: { type: "other", label: "Einbringen Bergebeutel" },
     anesist: { type: "propofol", label: "Propofol 30mg" },
+    reportText:
+      "Nach vollständiger Ablösung der Gallenblase vom Leberbett wird ein transparenter Bergebeutel in die Abdominalhöhle eingebracht. Die resezierte Gallenblase wird vorsichtig in den Endobag platziert. Das Präparat erscheint makroskopisch intakt ohne Hinweise auf eine Perforation. Die Gallenblasenwand zeigt eine chronisch-entzündliche Verdickung mit gelblich-bräunlicher Verfärbung, vereinbar mit dem präoperativ vermuteten Befund einer chronischen Cholezystitis.",
   },
   // 00:35 - Finale Kontrolle
   {
@@ -127,6 +142,8 @@ const protocolData: VitalRow[] = [
     ekg: "OK",
     rhytm: 70,
     chirurg: { type: "spuelung", label: "Finale Kontrolle" },
+    reportText:
+      "Die finale Inspektion des Gallenblasenbetts zeigt eine trockene Leberoberfläche ohne aktive Blutung. Die Clipstellen am Ductus-cysticus-Stumpf und am Arteria-cystica-Stumpf stellen sich regelrecht ohne Hinweise auf eine Leckage dar. Eine Nachkoagulation ist nicht erforderlich. Das Operationsfeld wird abschließend inspiziert, es finden sich keine zurückgelassenen Fremdkörper oder pathologischen Befunde.",
   },
   // 00:40 - Extraktion und Abschluss
   {
@@ -138,17 +155,10 @@ const protocolData: VitalRow[] = [
     ekg: "OK",
     rhytm: 66,
     chirurg: { type: "insufflation", label: "Extraktion und Abschluss" },
+    reportText:
+      "Die im Bergebeutel befindliche Gallenblase wird über den erweiterten Umbilikalport kontaminationsfrei extrahiert. Der Bergebeutel ist intakt, ein Steinverlust oder Gallenaustritt wird ausgeschlossen. Nach Entfernung der Trokare unter Sicht erfolgt die Deinsufflation des Pneumoperitoneums. Die Operation wird komplikationslos beendet. Das Präparat wird zur histopathologischen Untersuchung eingesandt.",
   },
 ]
-
-const chartData = protocolData.map((row) => ({
-  time: row.time,
-  puls: row.puls || 0,
-  co2: Number.parseFloat(row.co2?.replace(",", ".").replace("%", "") || "0"),
-  mbar: row.mbar || 0,
-  spo2: Number.parseFloat(row.spo2?.replace("%", "") || "0"),
-  rhytm: row.rhytm || 0,
-}))
 
 function EmptyCell() {
   return <div className="h-8 w-full rounded-md bg-stone-50 border border-stone-100" />
@@ -270,6 +280,15 @@ function VitalChart({
   )
 }
 
+const chartData = protocolData.map((row) => ({
+  time: row.time,
+  puls: row.puls || 0,
+  co2: Number.parseFloat(row.co2?.replace(",", ".").replace("%", "") || "0"),
+  mbar: row.mbar || 0,
+  spo2: Number.parseFloat(row.spo2?.replace("%", "") || "0"),
+  rhytm: row.rhytm || 0,
+}))
+
 export default function SmartProtokollPage() {
   const [selectedRow, setSelectedRow] = useState<VitalRow | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -337,11 +356,11 @@ export default function SmartProtokollPage() {
         <SheetContent className="w-[560px] sm:w-[640px] px-10 py-6 flex flex-col h-full overflow-hidden">
           <SheetHeader className="flex-shrink-0 mb-4">
             <SheetTitle className="text-xl font-semibold text-stone-900">Zeitblock {selectedRow?.time}</SheetTitle>
-            <p className="text-sm text-stone-500">5-Minuten Aufnahme und Vitalwerte</p>
+            <p className="text-sm text-stone-500">{selectedRow?.chirurg?.label}</p>
           </SheetHeader>
 
           {selectedRow && (
-            <div className="flex flex-col gap-4 flex-1 min-h-0">
+            <div className="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
               {/* Video Section */}
               <div className="flex-shrink-0">
                 <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-stone-900 group cursor-pointer">
@@ -367,6 +386,15 @@ export default function SmartProtokollPage() {
                 </div>
               </div>
 
+              {/* OP-Bericht text section */}
+              {selectedRow.reportText && (
+                <div className="flex-shrink-0 border border-stone-200 rounded-lg p-4 bg-stone-50">
+                  <h4 className="text-xs uppercase tracking-wide text-stone-400 font-medium mb-2">OP-Bericht</h4>
+                  <p className="text-sm text-stone-700 leading-relaxed">{selectedRow.reportText}</p>
+                </div>
+              )}
+
+              {/* Vital values row */}
               <div className="flex-shrink-0 border border-stone-200 rounded-lg p-3 bg-white">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex items-center gap-1.5">
