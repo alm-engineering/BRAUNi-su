@@ -1,12 +1,11 @@
 "use client"
 
-import React from "react"
+import type React from "react"
 
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { useParams } from "next/navigation"
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, Upload, FileDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface OpLayoutProps {
@@ -16,7 +15,7 @@ interface OpLayoutProps {
 
 export default function OpLayout({ children, params }: OpLayoutProps) {
   const pathname = usePathname()
-  const { id } = useParams<{ id: string }>()
+  const id = params.id
 
   const tabs = [
     { id: "operationsbericht", label: "Operationsbericht", path: `/op/${id}/operationsbericht` },
@@ -117,14 +116,16 @@ export default function OpLayout({ children, params }: OpLayoutProps) {
       {children}
 
       <div className="fixed bottom-0 left-0 right-0 border-t bg-white px-6 py-4 shadow-lg">
-        <div className="mx-auto flex max-w-7xl items-center justify-end gap-4">
-          <button className="rounded-lg bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-all hover:shadow-md hover:brightness-110">
+        <div className="flex items-center justify-end gap-4">
+          <button className="inline-flex items-center gap-2 rounded-lg bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-all hover:shadow-md hover:brightness-110">
+            <Upload className="h-4 w-4" />
             In KIS exportieren
           </button>
           <button
             onClick={handlePdfExport}
-            className="rounded-lg bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-all hover:shadow-md hover:brightness-110"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-all hover:shadow-md hover:brightness-110"
           >
+            <FileDown className="h-4 w-4" />
             PDF exportieren
           </button>
         </div>

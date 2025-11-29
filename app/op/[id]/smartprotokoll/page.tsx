@@ -10,10 +10,13 @@ import {
   AlertTriangle,
   Activity,
   Scissors,
-  Play,
   Heart,
   Wind,
   Gauge,
+  Monitor,
+  Video,
+  HeartPulse,
+  Database,
 } from "lucide-react"
 import { Area, AreaChart, XAxis, YAxis, ResponsiveContainer, CartesianGrid } from "recharts"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
@@ -220,7 +223,29 @@ export default function SmartProtokollPage() {
   }
 
   return (
-    <div className="px-6 py-8">
+    <div className="px-6 py-8 pb-24">
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-xs uppercase tracking-wide text-stone-400 font-medium">Datenquellen:</span>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-white border border-stone-200 rounded-full px-3 py-1.5">
+            <Database className="w-3.5 h-3.5 text-teal-600" />
+            <span className="text-xs font-medium text-stone-600">BRAUNi Pro 1</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white border border-stone-200 rounded-full px-3 py-1.5">
+            <Video className="w-3.5 h-3.5 text-blue-600" />
+            <span className="text-xs font-medium text-stone-600">KARL STORZ Endoskopie</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white border border-stone-200 rounded-full px-3 py-1.5">
+            <HeartPulse className="w-3.5 h-3.5 text-rose-600" />
+            <span className="text-xs font-medium text-stone-600">Dräger Vitalmonitor</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white border border-stone-200 rounded-full px-3 py-1.5">
+            <Monitor className="w-3.5 h-3.5 text-amber-600" />
+            <span className="text-xs font-medium text-stone-600">Anästhesie-Protokoll</span>
+          </div>
+        </div>
+      </div>
+
       <div className="bg-white border border-stone-200 rounded-xl p-6">
         <div className="relative">
           <div className="absolute left-[77px] top-0 bottom-0 w-px bg-stone-200" />
@@ -336,18 +361,13 @@ export default function SmartProtokollPage() {
               <div className="flex-shrink-0">
                 <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-stone-900 group cursor-pointer">
                   <video
-                    className="w-full h-full object-cover opacity-90"
+                    className="w-full h-full object-cover"
+                    controls
                     poster={`/placeholder.svg?height=180&width=320&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
                   >
-                    <source src={`/videos/op-${selectedRow.time.replace(":", "-")}.mp4`} type="video/mp4" />
+                    <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2025-11-29-15.52-converted-converted-pTGTydk76wMfL5tCUarRGxpRyb5sah.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                      <Play className="w-4 h-4 text-stone-900 ml-0.5" />
-                    </div>
-                  </div>
-                  <div className="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between">
+                  <div className="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between pointer-events-none">
                     <span className="text-white text-[10px] font-medium bg-stone-900/50 px-1.5 py-0.5 rounded-full">
                       {selectedRow.time} - {selectedRow.time.split(":")[0]}:
                       {String(Number(selectedRow.time.split(":")[1]) + 5).padStart(2, "0")}
