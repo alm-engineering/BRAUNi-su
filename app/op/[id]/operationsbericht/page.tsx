@@ -168,9 +168,10 @@ export default function OperationsberichtPage() {
 
   return (
     <div className="px-6 py-8 pb-24">
-      <div className="flex gap-6 items-start">
-        {/* Main Content */}
-        <div className="flex-1">
+      {/* Main Content */}
+      <div className="flex gap-6 items-start flex-col md:flex-row">
+        {/* Main Content - 2/3 width on tablet and above */}
+        <div className="w-full md:w-2/3 order-2 md:order-1">
           <div className="rounded-lg border bg-card p-8">
             <p className="text-muted-foreground leading-relaxed">
               {sentences.map((sentence, index) => (
@@ -192,7 +193,7 @@ export default function OperationsberichtPage() {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-80 sticky top-6">
+        <aside className="w-full md:w-1/3 md:sticky md:top-6 order-1 md:order-2">
           <div className="rounded-lg border bg-card p-6 h-full">
             <div className="flex items-center justify-between mb-4 h-8">
               <h3 className="font-semibold">Ausgewählter Text</h3>
