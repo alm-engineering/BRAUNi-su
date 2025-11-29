@@ -75,7 +75,7 @@ export default function HomePage() {
       </header>
 
       <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-7xl px-6 py-6">
+        <div className="mx-auto max-w-4xl px-6 py-6">
           {/* Timeline vertical line */}
           <div className="relative flex flex-col gap-4">
             <div className="absolute left-[76px] top-0 bottom-0 w-px z-10 bg-stone-200 z-0" />
