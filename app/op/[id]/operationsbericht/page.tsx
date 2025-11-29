@@ -197,7 +197,6 @@ export default function OperationsberichtPage() {
       if (transcribedText) {
         setPostoperativeText((prev) => (prev ? prev + "\n" + transcribedText : transcribedText))
         toast.success("Diktat transkribiert", {
-          description: "Der Text wurde erfolgreich hinzugefügt.",
           duration: 3000,
         })
       }
@@ -216,7 +215,6 @@ export default function OperationsberichtPage() {
       newSentences[selectedIndex] = editedText
       setSentences(newSentences)
       toast.success("Erfolgreich gespeichert", {
-        description: "Der Text wurde erfolgreich aktualisiert.",
         duration: 3000,
       })
     }
