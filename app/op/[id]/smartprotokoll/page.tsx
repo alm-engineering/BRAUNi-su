@@ -163,10 +163,6 @@ const protocolData: VitalRow[] = [
   },
 ]
 
-function EmptyCell() {
-  return <div className="h-9 w-full rounded-md bg-stone-50 border border-stone-100" />
-}
-
 function ActionTag({
   type,
   label,
@@ -227,7 +223,7 @@ export default function SmartProtokollPage() {
     <div className="px-6 py-8">
       <div className="bg-white border border-stone-200 rounded-xl p-6">
         <div className="relative">
-          <div className="absolute left-10 top-0 bottom-0 w-px bg-stone-200" />
+          <div className="absolute left-[84px] top-0 bottom-0 w-px bg-stone-200" />
 
           <div className="flex items-center gap-4 mb-6 pl-24">
             <span className="text-xs uppercase tracking-wide text-stone-400 font-medium w-[35%]">Chirurg</span>
@@ -242,11 +238,11 @@ export default function SmartProtokollPage() {
                 onClick={() => handleRowClick(row)}
                 className="relative flex items-start gap-4 py-3 pl-24 pr-2 hover:bg-stone-50 cursor-pointer transition-colors group rounded-lg"
               >
-                <div className="absolute left-0 flex items-center gap-2">
-                  <span className="font-mono text-sm text-stone-400 group-hover:text-stone-900 transition-colors w-16 text-right">
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
+                  <span className="font-mono text-sm text-stone-400 group-hover:text-stone-900 transition-colors w-16 text-right pr-2">
                     {row.time}
                   </span>
-                  <div className="w-3 h-3 rounded-full bg-white border-2 border-stone-300 group-hover:border-stone-500 group-hover:bg-stone-500 transition-colors z-10" />
+                  <div className="w-3 h-3 rounded-full bg-white border-2 border-stone-300 group-hover:border-stone-500 group-hover:bg-stone-500 transition-colors" />
                 </div>
 
                 <div className="flex items-start gap-4 flex-1 min-h-[44px]">
@@ -302,22 +298,21 @@ export default function SmartProtokollPage() {
 
                   <div className="flex-1">
                     {row.event ? (
-                      <div className="flex items-center gap-2 rounded-md bg-white border border-stone-200 px-3 py-2 group-hover:border-stone-300 transition-colors">
-                        <div
-                          className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                            row.event.importance === "high"
-                              ? "bg-red-500"
-                              : row.event.importance === "medium"
-                                ? "bg-amber-500"
-                                : "bg-emerald-500"
-                          }`}
-                        />
-                        <span className="text-stone-400">
+                      <div
+                        className={`flex items-center gap-2 rounded-md px-3 py-2 transition-colors ${
+                          row.event.importance === "high"
+                            ? "bg-red-500 text-white"
+                            : row.event.importance === "medium"
+                              ? "bg-amber-500 text-white"
+                              : "bg-emerald-500 text-white"
+                        }`}
+                      >
+                        <span className="text-white/80">
                           {row.event.type === "puls_sprung" && <TrendingUp className="h-4 w-4" />}
                           {row.event.type === "spo2_drop" && <AlertTriangle className="h-4 w-4" />}
                           {row.event.type === "bp_change" && <Activity className="h-4 w-4" />}
                         </span>
-                        <span className="text-sm font-medium text-stone-700 truncate">{row.event.label}</span>
+                        <span className="text-sm font-medium truncate">{row.event.label}</span>
                       </div>
                     ) : (
                       <div className="h-10 w-full rounded-md bg-stone-50 border border-stone-100" />
