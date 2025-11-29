@@ -180,6 +180,7 @@ export default function OperationsberichtPage() {
     try {
       const formData = new FormData()
       formData.append("audio", audioBlob, "recording.webm")
+      formData.append("format", "bullet-points")
 
       const transcribeResponse = await fetch("/api/transcribe", {
         method: "POST",
@@ -194,7 +195,7 @@ export default function OperationsberichtPage() {
       const transcribedText = transcribeData.text
 
       if (transcribedText) {
-        setPostoperativeText((prev) => (prev ? prev + " " + transcribedText : transcribedText))
+        setPostoperativeText((prev) => (prev ? prev + "\n" + transcribedText : transcribedText))
         toast.success("Diktat transkribiert", {
           description: "Der Text wurde erfolgreich hinzugefügt.",
           duration: 3000,
@@ -312,7 +313,7 @@ export default function OperationsberichtPage() {
           <div>
             <div id="operationsbericht-container">
               <div className="rounded-lg border bg-card p-8">
-                <p className="text-muted-foreground leading-loose">
+                <p className="text-base text-black leading-loose">
                   {sentences.map((sentence, index) => (
                     <span
                       key={index}
@@ -335,7 +336,7 @@ export default function OperationsberichtPage() {
           <aside className="self-start sticky top-6">
             <div className="rounded-lg border bg-card p-6 h-full">
               {selectedIndex === null ? (
-                <div className="flex items-center justify-center h-full min-h-[300px] text-muted-foreground text-sm">
+                <div className="flex items-center justify-center h-full min-h-[300px] text-muted-foreground text-base">
                   Klicken Sie auf einen Satz, um ihn zu bearbeiten
                 </div>
               ) : (
@@ -356,21 +357,21 @@ export default function OperationsberichtPage() {
                   </div>
 
                   <div className="space-y-4">
-                    <div className="text-xs text-muted-foreground">Satz {selectedIndex + 1}</div>
+                    <div className="text-sm text-muted-foreground">Satz {selectedIndex + 1}</div>
 
                     <Textarea
                       value={editedText}
                       onChange={(e) => setEditedText(e.target.value)}
-                      className="min-h-[200px] text-sm"
+                      className="min-h-[200px] text-base leading-loose"
                       placeholder="Text bearbeiten..."
                       disabled={isRecording || isTranscribing}
                     />
 
                     {isRecording && (
-                      <p className="text-xs text-muted-foreground animate-pulse">Sprechen Sie Ihr Feedback...</p>
+                      <p className="text-sm text-muted-foreground animate-pulse">Sprechen Sie Ihr Feedback...</p>
                     )}
                     {isTranscribing && (
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Loader2 className="w-3 h-3 animate-spin" />
                         Transkription läuft...
                       </div>
@@ -415,23 +416,23 @@ export default function OperationsberichtPage() {
       </div>
 
       <div className="mt-8 space-y-4">
-        <h2 className="text-2xl font-semibold">Postoperative Anforderungen</h2>
+        <h2 className="text-2xl font-semibold">Postoperative Anordnungen</h2>
 
         <div className="rounded-lg border bg-card p-8">
           <div className="space-y-4">
             <Textarea
               value={postoperativeText}
               onChange={(e) => setPostoperativeText(e.target.value)}
-              className="min-h-[200px]"
-              placeholder="Postoperative Anforderungen eingeben..."
+              className="min-h-[200px] text-base leading-loose"
+              placeholder="Postoperative Anordnungen eingeben..."
               disabled={isRecordingPostop || isTranscribingPostop}
             />
 
             {isRecordingPostop && (
-              <p className="text-xs text-muted-foreground animate-pulse">Sprechen Sie die Anforderungen...</p>
+              <p className="text-sm text-muted-foreground animate-pulse">Sprechen Sie die Anordnungen...</p>
             )}
             {isTranscribingPostop && (
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="w-3 h-3 animate-spin" />
                 Transkription läuft...
               </div>

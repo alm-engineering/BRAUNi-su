@@ -7,6 +7,21 @@ export async function POST(request: NextRequest) {
     // Combine sentences into full text
     const fullText = sentences.join(" ")
 
+    let formattedPostoperativeText = ""
+    if (postoperativeText) {
+      // Split by line breaks and filter out empty lines
+      const lines = postoperativeText.split("\n").filter((line) => line.trim())
+
+      // Create bullet points - if lines already start with -, keep them, otherwise add them
+      const bulletPoints = lines.map((line) => {
+        const trimmedLine = line.trim()
+        // If line already starts with -, use it as is, otherwise add -
+        return trimmedLine.startsWith("-") ? trimmedLine : `- ${trimmedLine}`
+      })
+
+      formattedPostoperativeText = bulletPoints.join("<br>")
+    }
+
     // Create HTML template matching the medical document format
     const html = `
       <!DOCTYPE html>
@@ -156,7 +171,7 @@ export async function POST(request: NextRequest) {
           <div class="postoperative-section">
             <h2>POSTOPERATIVE ANFORDERUNGEN</h2>
             <div class="content">
-              <p>${postoperativeText}</p>
+              <p>${formattedPostoperativeText}</p>
             </div>
           </div>
           `
