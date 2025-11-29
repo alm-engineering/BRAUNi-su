@@ -158,8 +158,12 @@ export default function OperationsberichtPage() {
   }
 
   useEffect(() => {
-    const id = window.location.pathname.split("/")[2]
-    localStorage.setItem(`op-${id}-sentences`, JSON.stringify(sentences))
+    const pathParts = window.location.pathname.split("/")
+    const id = pathParts[2] // /op/[id]/operationsbericht
+    if (id) {
+      localStorage.setItem(`op-${id}-sentences`, JSON.stringify(sentences))
+      console.log("[v0] Saved sentences to localStorage:", `op-${id}-sentences`, sentences.length)
+    }
   }, [sentences])
 
   return (

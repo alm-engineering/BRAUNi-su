@@ -25,11 +25,18 @@ export default function OpLayout({ children, params }: OpLayoutProps) {
 
   const handlePdfExport = async () => {
     try {
-      // Get sentences from localStorage or context
-      const sentences = JSON.parse(localStorage.getItem(`op-${id}-sentences`) || "[]")
+      const storageKey = `op-${id}-sentences`
+      console.log("[v0] Attempting to read from localStorage:", storageKey)
+
+      const storedData = localStorage.getItem(storageKey)
+      console.log("[v0] Raw localStorage data:", storedData)
+
+      const sentences = storedData ? JSON.parse(storedData) : []
+      console.log("[v0] Parsed sentences:", sentences.length)
 
       if (sentences.length === 0) {
-        alert("Keine Daten zum Exportieren gefunden")
+        console.error("[v0] No sentences found in localStorage")
+        alert("Keine Daten zum Exportieren gefunden. Bitte zuerst den Operationsbericht öffnen.")
         return
       }
 
