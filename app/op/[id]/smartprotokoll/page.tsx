@@ -1,123 +1,151 @@
 "use client"
 
-import { useState } from "react"
-import { Eye, Droplets, Camera, Play, Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { Link, TrendingUp, Syringe } from "lucide-react"
 
-interface TimelineStep {
-  id: string
+interface VitalRow {
   time: string
-  icon: "eye" | "droplet" | "camera" | "play"
-  title: string
-  description?: string
-  variant: "outlined" | "filled"
+  puls?: number
+  co2?: string
+  mbar?: number
+  spo2?: string
+  ekg?: string
+  rhytm?: number
+  chirurg?: { type: "spuelung" | "other"; label: string } | null
+  anesist?: { type: "adrenalin" | "other"; label: string } | null
+  event?: { type: "puls_sprung" | "alert" | "other"; label: string } | null
 }
 
-const initialSteps: TimelineStep[] = [
+const protocolData: VitalRow[] = [
+  { time: "00:00", puls: 82, co2: "5,6%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 82 },
+  { time: "00:05", puls: 82, co2: "5,6%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 82 },
+  { time: "00:10", puls: 82, co2: "5,6%", mbar: 12, spo2: "97%", ekg: "OK", rhytm: 82 },
   {
-    id: "1",
-    time: "00:24",
-    icon: "eye",
-    title: "Endoskop eingeführt",
-    variant: "outlined",
+    time: "00:05",
+    puls: 82,
+    co2: "5,6%",
+    mbar: 12,
+    spo2: "97%",
+    ekg: "OK",
+    rhytm: 82,
+    event: { type: "puls_sprung", label: "Puls Sprung +12" },
   },
   {
-    id: "2",
-    time: "00:45",
-    icon: "droplet",
-    title: "Spülung durchgeführt",
-    variant: "outlined",
+    time: "00:10",
+    puls: 82,
+    co2: "5,6%",
+    mbar: 12,
+    spo2: "97%",
+    ekg: "OK",
+    rhytm: 82,
+    chirurg: { type: "spuelung", label: "Spülung" },
   },
-  {
-    id: "3",
-    time: "01:10",
-    icon: "camera",
-    title: "Dokumentation und Bildaufnahme",
-    variant: "filled",
-  },
+  { time: "00:05", anesist: { type: "adrenalin", label: "Adrenalin" } },
+  { time: "00:10" },
+  { time: "00:05" },
+  { time: "00:10" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
+  { time: "" },
 ]
 
-export default function SmartProtokollPage() {
-  const [steps, setSteps] = useState<TimelineStep[]>(initialSteps)
+function EmptyCell() {
+  return <div className="h-8 w-full rounded-md bg-stone-100" />
+}
 
-  const getIcon = (iconType: string) => {
-    switch (iconType) {
-      case "eye":
-        return <Eye className="h-5 w-5" />
-      case "droplet":
-        return <Droplets className="h-5 w-5" />
-      case "camera":
-        return <Camera className="h-5 w-5" />
-      case "play":
-        return <Play className="h-5 w-5" />
-      default:
-        return <Eye className="h-5 w-5" />
-    }
-  }
-
-  const addStepAfter = (index: number) => {
-    const newStep: TimelineStep = {
-      id: `new-${Date.now()}`,
-      time: "--:--",
-      icon: "eye",
-      title: "Neuer Schritt",
-      variant: "outlined",
-    }
-    const newSteps = [...steps]
-    newSteps.splice(index + 1, 0, newStep)
-    setSteps(newSteps)
-  }
+function ActionTag({
+  type,
+  label,
+  variant,
+}: {
+  type: string
+  label: string
+  variant: "green" | "orange"
+}) {
+  const bgColor = variant === "green" ? "bg-[#00a78e]" : "bg-[#e8894a]"
 
   return (
-    <div className="relative px-6 py-8 pb-32">
-      <div className="absolute left-[94px] top-8 bottom-32 w-0.5 bg-[#00a78e]" />
-      <div className="absolute left-[88px] top-6 h-3 w-3 rounded-full bg-[#00a78e]" />
-      <div className="absolute left-[88px] bottom-28 h-3 w-3 rounded-full border-2 border-muted-foreground bg-background" />
+    <div className={`flex items-center gap-2 rounded-md ${bgColor} px-3 py-2 text-white`}>
+      {type === "spuelung" && <Link className="h-4 w-4" />}
+      {type === "adrenalin" && <Syringe className="h-4 w-4" />}
+      {type === "puls_sprung" && <TrendingUp className="h-4 w-4" />}
+      <span className="text-sm font-medium">{label}</span>
+    </div>
+  )
+}
 
-      {/* Steps */}
-      <div className="space-y-8">
-        {steps.map((step, index) => (
-          <div key={step.id}>
-            <div className="flex items-start gap-6">
-              <span className="w-14 pt-3 text-right text-sm text-muted-foreground">{step.time}</span>
+export default function SmartProtokollPage() {
+  return (
+    <div className="px-6 py-8">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[1200px] border-collapse">
+          <thead>
+            <tr className="text-sm text-muted-foreground">
+              <th className="w-16 pb-4 text-left font-normal"></th>
+              <th className="w-14 pb-4 text-center font-medium">PULS</th>
+              <th className="w-14 pb-4 text-center font-medium">CO2</th>
+              <th className="w-14 pb-4 text-center font-medium">MBAR</th>
+              <th className="w-14 pb-4 text-center font-medium">
+                SPO<sub>2</sub>
+              </th>
+              <th className="w-14 pb-4 text-center font-medium">EKG</th>
+              <th className="w-14 pb-4 text-center font-medium">RHYTM</th>
+              <th className="w-48 pb-4 text-center font-medium">CHIRURG</th>
+              <th className="w-48 pb-4 text-center font-medium">ANESIST</th>
+              <th className="w-48 pb-4 text-center font-medium">EVENTS</th>
+            </tr>
+          </thead>
+          <tbody>
+            {protocolData.map((row, index) => (
+              <tr key={index} className="border-b border-stone-100">
+                {/* Time column */}
+                <td className="py-3 pr-4 font-mono text-sm text-muted-foreground">{row.time}</td>
 
-              {/* Icon */}
-              <div className="flex h-10 w-10 items-center justify-center text-muted-foreground">
-                {getIcon(step.icon)}
-              </div>
+                {/* Vital signs */}
+                <td className="py-3 text-center text-sm">{row.puls}</td>
+                <td className="py-3 text-center text-sm">{row.co2}</td>
+                <td className="py-3 text-center text-sm">{row.mbar}</td>
+                <td className="py-3 text-center text-sm">{row.spo2}</td>
+                <td className="py-3 text-center text-sm">{row.ekg}</td>
+                <td className="py-3 text-center text-sm">{row.rhytm}</td>
 
-              {/* Content box */}
-              <div
-                className={cn(
-                  "flex-1 max-w-md rounded-lg px-6 py-4",
-                  step.variant === "outlined" ? "border-2 border-foreground bg-background" : "bg-muted",
-                )}
-              >
-                <p className="font-medium">{step.title}</p>
-                {step.description && <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>}
-              </div>
-            </div>
+                {/* CHIRURG column */}
+                <td className="px-2 py-2">
+                  {row.chirurg ? (
+                    <ActionTag type={row.chirurg.type} label={row.chirurg.label} variant="green" />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
 
-            {/* Add step button between steps */}
-            {index < steps.length - 1 && (
-              <div className="ml-24 py-2">
-                <button
-                  onClick={() => addStepAfter(index)}
-                  className="flex h-6 w-6 items-center justify-center rounded-full border border-muted-foreground/30 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
-                >
-                  <Plus className="h-3 w-3" />
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+                {/* ANESIST column */}
+                <td className="px-2 py-2">
+                  {row.anesist ? (
+                    <ActionTag type={row.anesist.type} label={row.anesist.label} variant="green" />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
 
-      <div className="mt-8 pl-24">
-        <Button variant="ghost" onClick={() => addStepAfter(steps.length - 1)} className="text-sm font-medium">
-          + ADD STEP
-        </Button>
+                {/* EVENTS column */}
+                <td className="px-2 py-2">
+                  {row.event ? (
+                    <ActionTag type={row.event.type} label={row.event.label} variant="orange" />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )
