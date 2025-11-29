@@ -72,7 +72,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-6 py-12">
+      <main className="mx-auto max-w-7xl py-12">
         <div className="flex flex-col gap-6">
           {opList.map((op) => (
             <Link key={op.id} href={`/op/${op.id}/operationsbericht`} className="block">
