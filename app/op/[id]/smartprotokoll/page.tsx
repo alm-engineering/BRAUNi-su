@@ -26,14 +26,25 @@ interface VitalRow {
   spo2?: string
   ekg?: string
   rhytm?: number
-  chirurg?: { type: "spuelung" | "biopsie" | "insufflation" | "schnitt" | "other"; label: string } | null
-  anesist?: { type: "adrenalin" | "propofol" | "fentanyl" | "other"; label: string } | null
-  event?: { type: "puls_sprung" | "spo2_drop" | "bp_change" | "alert" | "other"; label: string } | null
+  chirurg?: {
+    type: "spuelung" | "biopsie" | "insufflation" | "schnitt" | "other"
+    label: string
+    importance: "high" | "medium" | "low"
+  } | null
+  anesist?: {
+    type: "adrenalin" | "propofol" | "fentanyl" | "other"
+    label: string
+    importance: "high" | "medium" | "low"
+  } | null
+  event?: {
+    type: "puls_sprung" | "spo2_drop" | "bp_change" | "alert" | "other"
+    label: string
+    importance: "high" | "medium" | "low"
+  } | null
   reportText?: string
 }
 
 const protocolData: VitalRow[] = [
-  // 00:00 - Zugang und CO₂-Anlage
   {
     time: "00:00",
     puls: 72,
@@ -42,12 +53,11 @@ const protocolData: VitalRow[] = [
     spo2: "99%",
     ekg: "OK",
     rhytm: 72,
-    chirurg: { type: "schnitt", label: "Zugang und CO₂-Anlage" },
-    anesist: { type: "propofol", label: "Propofol 200mg" },
+    chirurg: { type: "schnitt", label: "Zugang und CO₂-Anlage", importance: "medium" },
+    anesist: { type: "propofol", label: "Propofol 200mg", importance: "high" },
     reportText:
       "Nach Einleitung der Allgemeinanästhesie und steriler Abdeckung des Operationsfeldes erfolgt der Zugang über eine subumbilikale Hautinzision. Die Veress-Nadel wird eingeführt und das Kapnoperitoneum mit CO₂ angelegt. Anschließend werden die Arbeitstrokare unter Sicht platziert. Die Trokarinzisionsstellen präsentieren sich trocken ohne aktive Blutung.",
   },
-  // 00:05 - Exploration und Retraktion
   {
     time: "00:05",
     puls: 68,
@@ -56,12 +66,11 @@ const protocolData: VitalRow[] = [
     spo2: "97%",
     ekg: "OK",
     rhytm: 68,
-    chirurg: { type: "other", label: "Exploration und Retraktion" },
-    anesist: { type: "fentanyl", label: "Fentanyl 50µg" },
+    chirurg: { type: "other", label: "Exploration und Retraktion", importance: "low" },
+    anesist: { type: "fentanyl", label: "Fentanyl 50µg", importance: "medium" },
     reportText:
       "Nach Einbringen der 30°-Optik zeigt sich bei der initialen Exploration des rechten Oberbauchs eine prall gefüllte Gallenblase mit bläulich-livider Wandverfärbung, vereinbar mit einer chronischen Cholezystitis. Die Leberoberfläche stellt sich mit glatter, glänzender Glisson-Kapsel und regelrechter bräunlich-roter Färbung dar. Es finden sich keine relevanten Adhäsionen im Zugangsbereich. Der Gallenblasenfundus wird mit einer atraumatischen Fasszange gefasst und zur kranialen Retraktion angehoben, um die Exposition des Calot-Dreiecks vorzubereiten.",
   },
-  // 00:10 - Präparation Calot-Dreieck
   {
     time: "00:10",
     puls: 74,
@@ -70,12 +79,11 @@ const protocolData: VitalRow[] = [
     spo2: "97%",
     ekg: "OK",
     rhytm: 74,
-    chirurg: { type: "schnitt", label: "Präparation Calot-Dreieck" },
-    event: { type: "puls_sprung", label: "Puls +6" },
+    chirurg: { type: "schnitt", label: "Präparation Calot-Dreieck", importance: "high" },
+    event: { type: "puls_sprung", label: "Puls +6", importance: "low" },
     reportText:
       "Es erfolgt die systematische Präparation des Calot-Dreiecks zur Etablierung des Critical View of Safety. Das Gallenblaseninfundibulum wird mittels laparoskopischer Fasszange nach lateral und kranial retrahiert. Unter Verwendung eines Maryland-Dissektors wird der peritoneale Überzug sowohl stumpf als auch scharf disseziert. Der Ductus cysticus und die Arteria cystica werden sukzessive aus dem periduktalen Fett- und Bindegewebe freipräpariert und skeletonisiert. Die Dissektion gestaltet sich bei dezenten entzündlichen Veränderungen des perivaskulären Gewebes technisch unproblematisch. Das Operationsfeld bleibt während der gesamten Präparationsphase übersichtlich und weitgehend trocken, lediglich minimale Sickerblutungen im Dissektionsbereich sind zu verzeichnen.",
   },
-  // 00:15 - Clipapplikation und Durchtrennung
   {
     time: "00:15",
     puls: 82,
@@ -84,13 +92,12 @@ const protocolData: VitalRow[] = [
     spo2: "96%",
     ekg: "OK",
     rhytm: 82,
-    chirurg: { type: "schnitt", label: "Clipapplikation und Durchtrennung" },
-    anesist: { type: "propofol", label: "Propofol 50mg" },
-    event: { type: "puls_sprung", label: "Puls +8" },
+    chirurg: { type: "schnitt", label: "Clipapplikation und Durchtrennung", importance: "high" },
+    anesist: { type: "propofol", label: "Propofol 50mg", importance: "low" },
+    event: { type: "puls_sprung", label: "Puls +8", importance: "medium" },
     reportText:
       "Nach vollständiger Darstellung des Critical View of Safety erfolgt die Clipversorgung der zystischen Strukturen. Am Ductus cysticus werden zwei Clips proximal und ein bis zwei Clips distal appliziert. Die Arteria cystica wird in gleicher Weise mit separaten Titanclips versorgt. Die korrekte Platzierung der Clips wird verifiziert. Das Operationsfeld zeigt sich nach erfolgter Clipapplikation trocken ohne Hinweise auf eine Leckage. Anschließend werden der Ductus cysticus und die Arteria cystica zwischen den applizierten Clips durchtrennt.",
   },
-  // 00:20 - Retrograde Dissektion
   {
     time: "00:20",
     puls: 78,
@@ -99,11 +106,10 @@ const protocolData: VitalRow[] = [
     spo2: "97%",
     ekg: "OK",
     rhytm: 78,
-    chirurg: { type: "schnitt", label: "Retrograde Dissektion" },
+    chirurg: { type: "schnitt", label: "Retrograde Dissektion", importance: "medium" },
     reportText:
       "Nach Durchtrennung der versorgten Strukturen beginnt die retrograde Dissektion der Gallenblase aus dem Leberbett. Unter Verwendung des Elektrokauters wird die Gallenblase schrittweise von der Fossa vesicae felleae abgelöst. Kleinere Gefäße im Leberbett werden mittels monopolarer Koagulation versorgt. Es zeigen sich im Dissektionsbereich Koagulationsspuren sowie eine geringe grünliche Verfärbung als Hinweis auf minimalen Galleaustritt, welcher klinisch nicht signifikant erscheint. Die Hämostase ist während der gesamten Dissektionsphase adäquat.",
   },
-  // 00:25 - Ablösung Gallenblase
   {
     time: "00:25",
     puls: 85,
@@ -112,13 +118,12 @@ const protocolData: VitalRow[] = [
     spo2: "95%",
     ekg: "OK",
     rhytm: 85,
-    chirurg: { type: "schnitt", label: "Ablösung Gallenblase" },
-    anesist: { type: "adrenalin", label: "O₂ erhöht" },
-    event: { type: "spo2_drop", label: "SpO₂ Drop -2%" },
+    chirurg: { type: "schnitt", label: "Ablösung Gallenblase", importance: "medium" },
+    anesist: { type: "adrenalin", label: "O₂ erhöht", importance: "medium" },
+    event: { type: "spo2_drop", label: "SpO₂ Drop -2%", importance: "high" },
     reportText:
       "Die Ablösung der Gallenblase vom Leberbett wird fortgesetzt. Bei entzündlich verändertem Gewebe im Sinne einer chronischen Cholezystitis erfolgt die Präparation mit besonderer Sorgfalt. Fibrinöse Auflagerungen im Bereich des Gallenblasenbetts werden dargestellt. Die elektrochirurgische Dissektion ermöglicht eine suffiziente Blutstillung. Das Leberbett präsentiert sich nach weitgehender Mobilisation der Gallenblase mit koagulierter Oberfläche ohne aktive Blutungsquellen.",
   },
-  // 00:30 - Einbringen Bergebeutel
   {
     time: "00:30",
     puls: 76,
@@ -127,12 +132,11 @@ const protocolData: VitalRow[] = [
     spo2: "97%",
     ekg: "OK",
     rhytm: 76,
-    chirurg: { type: "other", label: "Einbringen Bergebeutel" },
-    anesist: { type: "propofol", label: "Propofol 30mg" },
+    chirurg: { type: "other", label: "Einbringen Bergebeutel", importance: "low" },
+    anesist: { type: "propofol", label: "Propofol 30mg", importance: "low" },
     reportText:
       "Nach vollständiger Ablösung der Gallenblase vom Leberbett wird ein transparenter Bergebeutel in die Abdominalhöhle eingebracht. Die resezierte Gallenblase wird vorsichtig in den Endobag platziert. Das Präparat erscheint makroskopisch intakt ohne Hinweise auf eine Perforation. Die Gallenblasenwand zeigt eine chronisch-entzündliche Verdickung mit gelblich-bräunlicher Verfärbung, vereinbar mit dem präoperativ vermuteten Befund einer chronischen Cholezystitis.",
   },
-  // 00:35 - Finale Kontrolle
   {
     time: "00:35",
     puls: 70,
@@ -141,11 +145,10 @@ const protocolData: VitalRow[] = [
     spo2: "98%",
     ekg: "OK",
     rhytm: 70,
-    chirurg: { type: "spuelung", label: "Finale Kontrolle" },
+    chirurg: { type: "spuelung", label: "Finale Kontrolle", importance: "low" },
     reportText:
       "Die finale Inspektion des Gallenblasenbetts zeigt eine trockene Leberoberfläche ohne aktive Blutung. Die Clipstellen am Ductus-cysticus-Stumpf und am Arteria-cystica-Stumpf stellen sich regelrecht ohne Hinweise auf eine Leckage dar. Eine Nachkoagulation ist nicht erforderlich. Das Operationsfeld wird abschließend inspiziert, es finden sich keine zurückgelassenen Fremdkörper oder pathologischen Befunde.",
   },
-  // 00:40 - Extraktion und Abschluss
   {
     time: "00:40",
     puls: 66,
@@ -154,40 +157,37 @@ const protocolData: VitalRow[] = [
     spo2: "99%",
     ekg: "OK",
     rhytm: 66,
-    chirurg: { type: "insufflation", label: "Extraktion und Abschluss" },
+    chirurg: { type: "insufflation", label: "Extraktion und Abschluss", importance: "low" },
     reportText:
       "Die im Bergebeutel befindliche Gallenblase wird über den erweiterten Umbilikalport kontaminationsfrei extrahiert. Der Bergebeutel ist intakt, ein Steinverlust oder Gallenaustritt wird ausgeschlossen. Nach Entfernung der Trokare unter Sicht erfolgt die Deinsufflation des Pneumoperitoneums. Die Operation wird komplikationslos beendet. Das Präparat wird zur histopathologischen Untersuchung eingesandt.",
   },
 ]
 
 function EmptyCell() {
-  return <div className="h-8 w-full rounded-md bg-stone-50 border border-stone-100" />
+  return <div className="h-9 w-full rounded-md bg-stone-50 border border-stone-100" />
 }
 
 function ActionTag({
   type,
   label,
-  variant,
+  importance,
 }: {
   type: string
   label: string
-  variant: "surgeon" | "anesist" | "event"
+  importance: "high" | "medium" | "low"
 }) {
-  const styles = {
-    surgeon: "bg-teal-50 text-teal-700 border border-teal-200",
-    anesist: "bg-sky-50 text-sky-700 border border-sky-200",
-    event: "bg-amber-50 text-amber-700 border border-amber-200",
+  const importanceColors = {
+    high: "bg-red-500",
+    medium: "bg-amber-500",
+    low: "bg-emerald-500",
   }
 
-  const iconStyles = {
-    surgeon: "text-teal-500",
-    anesist: "text-sky-500",
-    event: "text-amber-500",
-  }
+  const iconColor = "text-stone-400"
 
   return (
-    <div className={`flex items-center gap-2 rounded-md ${styles[variant]} px-3 py-2`}>
-      <span className={iconStyles[variant]}>
+    <div className="flex items-center gap-2 rounded-md bg-white border border-stone-200 px-3 py-2">
+      <div className={`w-2 h-2 rounded-full flex-shrink-0 ${importanceColors[importance]}`} />
+      <span className={iconColor}>
         {type === "spuelung" && <Droplets className="h-4 w-4" />}
         {type === "biopsie" && <Link className="h-4 w-4" />}
         {type === "insufflation" && <Activity className="h-4 w-4" />}
@@ -200,82 +200,7 @@ function ActionTag({
         {type === "spo2_drop" && <AlertTriangle className="h-4 w-4" />}
         {type === "bp_change" && <Activity className="h-4 w-4" />}
       </span>
-      <span className="text-sm font-medium">{label}</span>
-    </div>
-  )
-}
-
-function VitalChart({
-  data,
-  dataKey,
-  dataKey2,
-  color,
-  color2,
-  gradientId,
-  gradientId2,
-  label,
-  label2,
-  unit,
-  domain,
-}: {
-  data: typeof chartData
-  dataKey: string
-  dataKey2?: string
-  color: string
-  color2?: string
-  gradientId: string
-  gradientId2?: string
-  label: string
-  label2?: string
-  unit: string
-  domain?: [number, number]
-}) {
-  return (
-    <div className="h-24 w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
-          <defs>
-            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={color} stopOpacity={0.25} />
-              <stop offset="95%" stopColor={color} stopOpacity={0.02} />
-            </linearGradient>
-            {gradientId2 && color2 && (
-              <linearGradient id={gradientId2} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={color2} stopOpacity={0.25} />
-                <stop offset="95%" stopColor={color2} stopOpacity={0.02} />
-              </linearGradient>
-            )}
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} tickLine={false} />
-          <XAxis dataKey="time" tick={{ fontSize: 9, fill: "#a8a29e" }} axisLine={false} />
-          <YAxis
-            domain={domain || ["auto", "auto"]}
-            tick={{ fontSize: 9, fill: "#a8a29e" }}
-            axisLine={false}
-            tickLine={false}
-            tickFormatter={(value) => `${value}${unit}`}
-            width={35}
-          />
-          <Area
-            type="monotone"
-            dataKey={dataKey}
-            stroke={color}
-            strokeWidth={2}
-            fill={`url(#${gradientId})`}
-            name={label}
-          />
-          {dataKey2 && color2 && gradientId2 && (
-            <Area
-              type="monotone"
-              dataKey={dataKey2}
-              stroke={color2}
-              strokeWidth={2}
-              fill={`url(#${gradientId2})`}
-              name={label2}
-            />
-          )}
-        </AreaChart>
-      </ResponsiveContainer>
+      <span className="text-sm font-medium text-stone-700">{label}</span>
     </div>
   )
 }
@@ -300,57 +225,55 @@ export default function SmartProtokollPage() {
 
   return (
     <div className="px-6 py-8">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="text-xs uppercase tracking-wide text-stone-400">
-            <th className="w-20 pb-4 text-left font-medium"></th>
-            <th className="pb-4 text-center font-medium">CHIRURG</th>
-            <th className="pb-4 text-center font-medium">ANÄSTHESIST</th>
-            <th className="pb-4 text-center font-medium">EVENTS</th>
-          </tr>
-        </thead>
-        <tbody>
-          {protocolData.map((row, index) => (
-            <tr
-              key={index}
-              onClick={() => handleRowClick(row)}
-              className="border-b border-stone-100 transition-colors duration-150 hover:bg-stone-100 cursor-pointer group"
-            >
-              {/* Time column */}
-              <td className="py-3 pr-4 font-mono text-sm text-stone-500 group-hover:text-stone-900 transition-colors">
-                {row.time}
-              </td>
-
-              {/* CHIRURG column */}
-              <td className="px-2 py-2">
-                {row.chirurg ? (
-                  <ActionTag type={row.chirurg.type} label={row.chirurg.label} variant="surgeon" />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-
-              {/* ANESIST column */}
-              <td className="px-2 py-2">
-                {row.anesist ? (
-                  <ActionTag type={row.anesist.type} label={row.anesist.label} variant="anesist" />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-
-              {/* EVENTS column */}
-              <td className="px-2 py-2">
-                {row.event ? (
-                  <ActionTag type={row.event.type} label={row.event.label} variant="event" />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
+      <div className="bg-white border border-stone-200 rounded-xl p-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="text-xs uppercase tracking-wide text-stone-400">
+              <th className="w-20 pb-4 text-left font-medium"></th>
+              <th className="pb-4 text-center font-medium w-[35%]">CHIRURG</th>
+              <th className="pb-4 text-center font-medium w-[35%]">ANÄSTHESIST</th>
+              <th className="pb-4 text-center font-medium">EVENTS</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {protocolData.map((row, index) => (
+              <tr
+                key={index}
+                onClick={() => handleRowClick(row)}
+                className="border-b border-stone-100 transition-colors duration-150 hover:bg-stone-50 cursor-pointer group"
+              >
+                <td className="py-3 pr-4 font-mono text-sm text-stone-500 group-hover:text-stone-900 transition-colors">
+                  {row.time}
+                </td>
+
+                <td className="px-2 py-2">
+                  {row.chirurg ? (
+                    <ActionTag type={row.chirurg.type} label={row.chirurg.label} importance={row.chirurg.importance} />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+
+                <td className="px-2 py-2">
+                  {row.anesist ? (
+                    <ActionTag type={row.anesist.type} label={row.anesist.label} importance={row.anesist.importance} />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+
+                <td className="px-2 py-2">
+                  {row.event ? (
+                    <ActionTag type={row.event.type} label={row.event.label} importance={row.event.importance} />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
         <SheetContent className="w-[520px] sm:w-[580px] px-6 py-4 flex flex-col h-full overflow-hidden">
