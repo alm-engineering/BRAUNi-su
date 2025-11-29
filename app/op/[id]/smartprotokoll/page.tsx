@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Link, TrendingUp, Syringe, Droplets, Pill, AlertTriangle, Activity, Scissors } from "lucide-react"
-import { Area, AreaChart, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import { Link, TrendingUp, Syringe, Droplets, Pill, AlertTriangle, Activity, Scissors, Play } from "lucide-react"
+import { Area, AreaChart, XAxis, YAxis, ResponsiveContainer, CartesianGrid } from "recharts"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 
 interface VitalRow {
@@ -185,37 +185,72 @@ function ActionTag({
 function VitalChart({
   data,
   dataKey,
+  dataKey2,
   color,
+  color2,
   gradientId,
+  gradientId2,
+  label,
+  label2,
   unit,
   domain,
 }: {
   data: typeof chartData
   dataKey: string
+  dataKey2?: string
   color: string
+  color2?: string
   gradientId: string
+  gradientId2?: string
+  label: string
+  label2?: string
   unit: string
   domain?: [number, number]
 }) {
   return (
-    <div className="h-32 w-full">
+    <div className="h-40 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+        <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={color} stopOpacity={0.3} />
-              <stop offset="95%" stopColor={color} stopOpacity={0.05} />
+              <stop offset="5%" stopColor={color} stopOpacity={0.25} />
+              <stop offset="95%" stopColor={color} stopOpacity={0.02} />
             </linearGradient>
+            {gradientId2 && color2 && (
+              <linearGradient id={gradientId2} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={color2} stopOpacity={0.25} />
+                <stop offset="95%" stopColor={color2} stopOpacity={0.02} />
+              </linearGradient>
+            )}
           </defs>
-          <XAxis dataKey="time" tick={{ fontSize: 10, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
+          <XAxis dataKey="time" tick={{ fontSize: 11, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
           <YAxis
             domain={domain || ["auto", "auto"]}
-            tick={{ fontSize: 10, fill: "#a8a29e" }}
+            tick={{ fontSize: 11, fill: "#a8a29e" }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(value) => `${value}${unit}`}
+            width={45}
           />
-          <Area type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} fill={`url(#${gradientId})`} />
+          <Area
+            type="monotone"
+            dataKey={dataKey}
+            stroke={color}
+            strokeWidth={2}
+            fill={`url(#${gradientId})`}
+            name={label}
+          />
+          {dataKey2 && color2 && gradientId2 && (
+            <Area
+              type="monotone"
+              dataKey={dataKey2}
+              stroke={color2}
+              strokeWidth={2}
+              fill={`url(#${gradientId2})`}
+              name={label2}
+            />
+          )}
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -288,89 +323,136 @@ export default function SmartProtokollPage() {
       </div>
 
       <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <SheetContent className="w-[500px] sm:w-[600px] overflow-y-auto">
-          <SheetHeader className="mb-6">
-            <SheetTitle className="text-xl font-semibold text-stone-900">Vitalwerte um {selectedRow?.time}</SheetTitle>
+        <SheetContent className="w-[540px] sm:w-[640px] overflow-y-auto px-8 py-6">
+          <SheetHeader className="mb-8">
+            <SheetTitle className="text-2xl font-semibold text-stone-900">Zeitblock {selectedRow?.time}</SheetTitle>
+            <p className="text-sm text-stone-500 mt-1">5-Minuten Aufnahme und Vitalwerte</p>
           </SheetHeader>
 
           {selectedRow && (
-            <div className="space-y-6">
-              {/* Current values summary */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="rounded-lg bg-rose-50 border border-rose-100 p-3">
-                  <p className="text-xs text-rose-600 font-medium uppercase tracking-wide">Puls</p>
-                  <p className="text-2xl font-semibold text-rose-700">{selectedRow.puls}</p>
-                </div>
-                <div className="rounded-lg bg-emerald-50 border border-emerald-100 p-3">
-                  <p className="text-xs text-emerald-600 font-medium uppercase tracking-wide">SpO₂</p>
-                  <p className="text-2xl font-semibold text-emerald-700">{selectedRow.spo2}</p>
-                </div>
-                <div className="rounded-lg bg-blue-50 border border-blue-100 p-3">
-                  <p className="text-xs text-blue-600 font-medium uppercase tracking-wide">CO₂</p>
-                  <p className="text-2xl font-semibold text-blue-700">{selectedRow.co2}</p>
-                </div>
-                <div className="rounded-lg bg-amber-50 border border-amber-100 p-3">
-                  <p className="text-xs text-amber-600 font-medium uppercase tracking-wide">MBAR</p>
-                  <p className="text-2xl font-semibold text-amber-700">{selectedRow.mbar}</p>
-                </div>
-                <div className="rounded-lg bg-violet-50 border border-violet-100 p-3">
-                  <p className="text-xs text-violet-600 font-medium uppercase tracking-wide">EKG</p>
-                  <p className="text-2xl font-semibold text-violet-700">{selectedRow.ekg}</p>
-                </div>
-                <div className="rounded-lg bg-cyan-50 border border-cyan-100 p-3">
-                  <p className="text-xs text-cyan-600 font-medium uppercase tracking-wide">Rhythmus</p>
-                  <p className="text-2xl font-semibold text-cyan-700">{selectedRow.rhytm}</p>
+            <div className="space-y-8">
+              {/* Video Section */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-stone-600 uppercase tracking-wide">OP-Aufnahme</h3>
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-stone-900 group cursor-pointer">
+                  <video
+                    className="w-full h-full object-cover opacity-90"
+                    poster={`/placeholder.svg?height=360&width=640&query=endoscopy surgery video frame ${selectedRow.time}`}
+                  >
+                    <source src={`/videos/op-${selectedRow.time.replace(":", "-")}.mp4`} type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <Play className="w-7 h-7 text-stone-900 ml-1" />
+                    </div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                    <span className="text-white text-sm font-medium bg-stone-900/50 px-3 py-1 rounded-full">
+                      {selectedRow.time} - {selectedRow.time.split(":")[0]}:
+                      {String(Number(selectedRow.time.split(":")[1]) + 5).padStart(2, "0")}
+                    </span>
+                    <span className="text-white/80 text-xs bg-stone-900/50 px-2 py-1 rounded-full">5:00</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Charts */}
-              <div className="space-y-6">
-                <div className="rounded-lg border border-stone-200 p-4">
-                  <h4 className="text-sm font-medium text-stone-700 mb-3">Puls (bpm)</h4>
-                  <VitalChart
-                    data={chartData}
-                    dataKey="puls"
-                    color="#e11d48"
-                    gradientId="pulsGradient"
-                    unit=""
-                    domain={[50, 100]}
-                  />
+              {/* Current values summary */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-stone-600 uppercase tracking-wide">Aktuelle Werte</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="rounded-xl bg-gradient-to-br from-rose-50 to-white border border-rose-100 p-4">
+                    <p className="text-xs text-rose-500 font-medium uppercase tracking-wide">Puls</p>
+                    <p className="text-3xl font-bold text-rose-600 mt-1">{selectedRow.puls}</p>
+                    <p className="text-xs text-rose-400 mt-0.5">bpm</p>
+                  </div>
+                  <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 p-4">
+                    <p className="text-xs text-emerald-500 font-medium uppercase tracking-wide">SpO₂</p>
+                    <p className="text-3xl font-bold text-emerald-600 mt-1">{selectedRow.spo2}</p>
+                    <p className="text-xs text-emerald-400 mt-0.5">Sättigung</p>
+                  </div>
+                  <div className="rounded-xl bg-gradient-to-br from-amber-50 to-white border border-amber-100 p-4">
+                    <p className="text-xs text-amber-500 font-medium uppercase tracking-wide">MBAR</p>
+                    <p className="text-3xl font-bold text-amber-600 mt-1">{selectedRow.mbar}</p>
+                    <p className="text-xs text-amber-400 mt-0.5">Druck</p>
+                  </div>
                 </div>
+              </div>
 
-                <div className="rounded-lg border border-stone-200 p-4">
-                  <h4 className="text-sm font-medium text-stone-700 mb-3">SpO₂ (%)</h4>
-                  <VitalChart
-                    data={chartData}
-                    dataKey="spo2"
-                    color="#10b981"
-                    gradientId="spo2Gradient"
-                    unit="%"
-                    domain={[90, 100]}
-                  />
-                </div>
+              {/* Combined Charts */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-stone-600 uppercase tracking-wide">Verlauf</h3>
+                <div className="space-y-4">
+                  {/* Puls & Rhythmus combined */}
+                  <div className="rounded-xl border border-stone-200 bg-white p-5">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-rose-500" />
+                        <span className="text-sm text-stone-600">Puls</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-violet-500" />
+                        <span className="text-sm text-stone-600">Rhythmus</span>
+                      </div>
+                    </div>
+                    <VitalChart
+                      data={chartData}
+                      dataKey="puls"
+                      dataKey2="rhytm"
+                      color="#e11d48"
+                      color2="#8b5cf6"
+                      gradientId="pulsGradientCombined"
+                      gradientId2="rhytmGradient"
+                      label="Puls"
+                      label2="Rhythmus"
+                      unit=""
+                      domain={[50, 100]}
+                    />
+                  </div>
 
-                <div className="rounded-lg border border-stone-200 p-4">
-                  <h4 className="text-sm font-medium text-stone-700 mb-3">CO₂ (%)</h4>
-                  <VitalChart
-                    data={chartData}
-                    dataKey="co2"
-                    color="#3b82f6"
-                    gradientId="co2Gradient"
-                    unit="%"
-                    domain={[4, 7]}
-                  />
-                </div>
+                  {/* SpO2 & CO2 combined */}
+                  <div className="rounded-xl border border-stone-200 bg-white p-5">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                        <span className="text-sm text-stone-600">SpO₂ (%)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-500" />
+                        <span className="text-sm text-stone-600">CO₂ (% x10)</span>
+                      </div>
+                    </div>
+                    <VitalChart
+                      data={chartData.map((d) => ({ ...d, co2Scaled: d.co2 * 10 }))}
+                      dataKey="spo2"
+                      dataKey2="co2Scaled"
+                      color="#10b981"
+                      color2="#3b82f6"
+                      gradientId="spo2GradientCombined"
+                      gradientId2="co2GradientCombined"
+                      label="SpO₂"
+                      label2="CO₂"
+                      unit="%"
+                      domain={[40, 100]}
+                    />
+                  </div>
 
-                <div className="rounded-lg border border-stone-200 p-4">
-                  <h4 className="text-sm font-medium text-stone-700 mb-3">MBAR</h4>
-                  <VitalChart
-                    data={chartData}
-                    dataKey="mbar"
-                    color="#f59e0b"
-                    gradientId="mbarGradient"
-                    unit=""
-                    domain={[0, 20]}
-                  />
+                  {/* MBAR standalone */}
+                  <div className="rounded-xl border border-stone-200 bg-white p-5">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-3 h-3 rounded-full bg-amber-500" />
+                      <span className="text-sm text-stone-600">Abdominaldruck (MBAR)</span>
+                    </div>
+                    <VitalChart
+                      data={chartData}
+                      dataKey="mbar"
+                      color="#f59e0b"
+                      gradientId="mbarGradientNew"
+                      label="MBAR"
+                      unit=""
+                      domain={[0, 20]}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
