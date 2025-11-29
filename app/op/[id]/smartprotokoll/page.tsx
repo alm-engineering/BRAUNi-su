@@ -236,8 +236,8 @@ function VitalChart({
               </linearGradient>
             )}
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
-          <XAxis dataKey="time" tick={{ fontSize: 10, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} tickLine={false} />
+          <XAxis dataKey="time" tick={{ fontSize: 10, fill: "#a8a29e" }} axisLine={false} />
           <YAxis
             domain={domain || ["auto", "auto"]}
             tick={{ fontSize: 10, fill: "#a8a29e" }}
@@ -336,17 +336,17 @@ export default function SmartProtokollPage() {
       </div>
 
       <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <SheetContent className="w-[600px] sm:w-[720px] px-10 py-6 overflow-hidden">
-          <SheetHeader className="mb-6">
+        <SheetContent className="w-[600px] sm:w-[680px] px-8 py-6 overflow-y-auto overflow-x-hidden">
+          <SheetHeader className="mb-5">
             <SheetTitle className="text-xl font-semibold text-stone-900">Zeitblock {selectedRow?.time}</SheetTitle>
             <p className="text-sm text-stone-500">5-Minuten Aufnahme und Vitalwerte</p>
           </SheetHeader>
 
           {selectedRow && (
-            <div className="flex flex-col gap-5 h-[calc(100vh-120px)]">
-              {/* Video Section - compact */}
+            <div className="flex flex-col gap-4">
+              {/* Video Section */}
               <div className="flex-shrink-0">
-                <div className="relative aspect-[16/7] w-full rounded-xl overflow-hidden bg-stone-900 group cursor-pointer">
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-stone-900 group cursor-pointer">
                   <video
                     className="w-full h-full object-cover opacity-90"
                     poster={`/placeholder.svg?height=280&width=640&query=endoscopy laparoscopic surgery video frame cholecystectomy ${selectedRow.time}`}
@@ -370,38 +370,38 @@ export default function SmartProtokollPage() {
               </div>
 
               <div className="flex-shrink-0">
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
                     <Heart className="w-4 h-4 text-rose-500" />
                     <span className="text-sm text-stone-600">Puls</span>
-                    <span className="text-lg font-semibold text-stone-900">{selectedRow.puls}</span>
+                    <span className="text-base font-semibold text-stone-900">{selectedRow.puls}</span>
                     <span className="text-xs text-stone-400">bpm</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                     <Wind className="w-4 h-4 text-emerald-500" />
                     <span className="text-sm text-stone-600">SpO₂</span>
-                    <span className="text-lg font-semibold text-stone-900">{selectedRow.spo2}</span>
+                    <span className="text-base font-semibold text-stone-900">{selectedRow.spo2}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                     <Gauge className="w-4 h-4 text-amber-500" />
                     <span className="text-sm text-stone-600">MBAR</span>
-                    <span className="text-lg font-semibold text-stone-900">{selectedRow.mbar}</span>
+                    <span className="text-base font-semibold text-stone-900">{selectedRow.mbar}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                     <Activity className="w-4 h-4 text-blue-500" />
                     <span className="text-sm text-stone-600">CO₂</span>
-                    <span className="text-lg font-semibold text-stone-900">{selectedRow.co2}</span>
+                    <span className="text-base font-semibold text-stone-900">{selectedRow.co2}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex-1 flex flex-col gap-3 min-h-0">
+              <div className="flex flex-col gap-3">
                 {/* Puls & SpO2 combined */}
-                <div className="flex-1 rounded-lg border border-stone-200 bg-white p-4">
+                <div className="rounded-lg border border-stone-200 bg-white p-4">
                   <div className="flex items-center gap-4 mb-2">
                     <div className="flex items-center gap-1.5">
                       <div className="w-2 h-2 rounded-full bg-rose-500" />
@@ -428,7 +428,7 @@ export default function SmartProtokollPage() {
                 </div>
 
                 {/* CO2 & MBAR combined */}
-                <div className="flex-1 rounded-lg border border-stone-200 bg-white p-4">
+                <div className="rounded-lg border border-stone-200 bg-white p-4">
                   <div className="flex items-center gap-4 mb-2">
                     <div className="flex items-center gap-1.5">
                       <div className="w-2 h-2 rounded-full bg-blue-500" />
