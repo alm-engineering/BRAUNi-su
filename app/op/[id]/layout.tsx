@@ -1,6 +1,6 @@
 "use client"
 
-import type React from "react"
+import React, { use } from "react"
 
 import Link from "next/link"
 import Image from "next/image"
@@ -10,12 +10,12 @@ import { cn } from "@/lib/utils"
 
 interface OpLayoutProps {
   children: React.ReactNode
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default function OpLayout({ children, params }: OpLayoutProps) {
   const pathname = usePathname()
-  const id = params.id
+  const { id } = use(params)
 
   const tabs = [
     { id: "operationsbericht", label: "Operationsbericht", path: `/op/${id}/operationsbericht` },
