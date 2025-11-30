@@ -1,0 +1,30 @@
+{
+  "name": "brauni2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "report": "ts-node src/generate-report.ts",
+    "pdf": "ts-node src/generate-pdf.ts",
+    "pato": "ts-node src/pato.ts",
+    "ops": "ts-node src/ops.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "dotenv": "^17.2.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@openrouter/sdk": "^0.1.27",
+    "@react-pdf/renderer": "^4.3.1",
+    "react": "^19.2.0"
+  }
+}

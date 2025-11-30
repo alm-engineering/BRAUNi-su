@@ -1,0 +1,46 @@
+Ich werde die OPS-Codes basierend auf meinem Fachwissen zur medizinischen Kodierung auflisten. Die OPS-Klassifikation ist ein etabliertes deutsches Kodierungssystem, das sich nur selten grundlegend ändert.
+
+---
+
+# OPS-Codes für die laparoskopische Cholezystektomie
+
+## HAUPTPROZEDUR:
+
+- **5-511.11** - Cholezystektomie: Einfach, laparoskopisch: Ohne laparoskopische Revision der Gallengänge
+
+## ZUSATZPROZEDUREN:
+
+- **5-469.21** - Andere Operationen am Darm: Adhäsiolyse: Laparoskopisch
+  *(Für die Lösung der perivesikulären Adhäsionen)*
+
+- **5-549.5** - Andere Bauchoperationen: Laparoskopie mit Präparation und Clipapplikation an peritonealen Strukturen
+  *(Alternativ in der Hauptprozedur enthalten)*
+
+## HINWEISE:
+
+1. **Zur Hauptprozedur 5-511.11:**
+   - Der Code 5-511.11 umfasst die standardmäßige laparoskopische Cholezystektomie mit Pneumoperitoneum, Präparation des Calot-Dreiecks, Clipversorgung von A. cystica und Ductus cysticus sowie Ablösung aus dem Leberbett
+   - Die intraoperative Blutstillung mittels Elektrokoagulation ist als Bestandteil der Hauptprozedur anzusehen und nicht separat kodierbar
+
+2. **Zur Adhäsiolyse:**
+   - Die im Bericht erwähnten "geringen Adhäsionen im perivesikulären Bereich" könnten eine separate Kodierung rechtfertigen
+   - **Wichtig:** Gemäß den Deutschen Kodierrichtlinien (DKR) ist eine Adhäsiolyse nur dann separat zu kodieren, wenn sie einen eigenständigen signifikanten Aufwand darstellt. Bei "geringen Adhäsionen" ist dies in der Regel nicht der Fall
+
+3. **Nicht separat kodierbar:**
+   - Die Clipapplikation (Titanclips) ist Bestandteil der Cholezystektomie
+   - Die Elektrokoagulation zur Blutstillung ist als Bestandteil der OP anzusehen
+   - Die Bergung mittels Endobag ist nicht separat kodierbar
+   - Die diffusen Sickerblutungen und deren Versorgung stellen keine eigenständige Komplikation dar, die separat kodiert werden müsste
+
+4. **Diagnose-Kodierung (ICD-10-GM):**
+   - Als Hauptdiagnose wäre **K81.1** (Chronische Cholezystitis) zu kodieren, wie im Bericht beschrieben
+
+---
+
+**Empfohlene Kodierung für diesen Fall:**
+
+| Code | Bezeichnung |
+|------|-------------|
+| **5-511.11** | Cholezystektomie: Einfach, laparoskopisch: Ohne laparoskopische Revision der Gallengänge |
+
+Die Adhäsiolyse würde ich bei "geringen Adhäsionen" nicht separat kodieren, da dies als Bestandteil der Präparation bei chronischer Cholezystitis anzusehen ist.
